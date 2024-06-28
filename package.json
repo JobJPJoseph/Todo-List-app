@@ -2,12 +2,13 @@
   "name": "todo-list",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/item.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "watch": "nodemon --exec 'npm test' --watch test"
   },
   "keywords": [],
   "author": "",

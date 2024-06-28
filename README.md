@@ -5,13 +5,14 @@
     Binding (context):
     Destructuring:
     Asychronousity (Promises/asyce-await):
-    NPM Packages (Mocha/Chai):
+    NPM Packages (Mocha/Chai): Done
     Class instances:
     Single Responsibiity Principle:
     Custom Errors:
     Handling Errors:
     Linked Lists:
     Stacks and Queues:
+    More NPM Packages:
 
 ### Item
     Constructor

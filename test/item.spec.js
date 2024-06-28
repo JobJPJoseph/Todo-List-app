@@ -44,6 +44,7 @@ describe('Item class', function () {
             expect(Item.isValidDate(correctFormat)).to.be.true;
         });
 
+
     });
 
 });
