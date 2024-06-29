@@ -8,8 +8,6 @@ const expect = chai.expect;
 
 chai.use(spies);
 
-// Make sure to update "main" in your package.json file so that there is no issue running your tests.
-
 describe('Item class', function () {
 
     it('the Item class should exist', function () {
@@ -44,6 +42,52 @@ describe('Item class', function () {
             expect(Item.isValidDate(correctFormat)).to.be.true;
         });
 
+    });
+
+    describe("Constructor", function () {
+
+        let validItem;
+        let nonValidItem;
+
+
+        const title = 'Shopping';
+        const correctFormat = '01-09-1198';
+        const noDash = 'abcdefghei';
+        const description = 'Groceries';
+
+        beforeEach(function () {
+            nonValidItem = new Item(title, noDash, description);
+            validItem = new Item(title, correctFormat, description);
+        });
+
+        it('should initialize title and description', function () {
+            expect(validItem.title).to.equal("Shopping");
+            expect(nonValidItem.title).to.equal("Shopping");
+
+            expect(valid.Item.description).to.equal(description);
+            expect(nonValid.Item.description).to.equal(description);
+        });
+
+        it('should set a property called done and set it to false', function () {
+            // expect(validItem.done).to.be.false; // wrong
+            expect(nonValidItem.done).to.be.false;
+        });
+
+        context('When validDate is true', function () {
+
+            it('should initailize deadline', function () {
+                expect(validItem.deadline).to.equal(correctFormat);
+            });
+
+        });
+
+        context('When validDate is false', function () {
+
+            it("should raise an error and print out: 'deadline was in an invalid format'", function () {
+                expect(new Item(title, noDash, description)).to.throw(Error).with.property('message').that.includes('deadline was in an invalid format');
+            });
+
+        });
 
     });
 
