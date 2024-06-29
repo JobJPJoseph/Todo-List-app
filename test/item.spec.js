@@ -10,17 +10,20 @@ chai.use(spies);
 
 describe('Item class', function () {
 
+    const wrongType = 12345;
+    const lessThanTenLetters = 'abcdef';
+    const noDash = 'abcdefghei';
+    const withDash = 'b5-15-3s1d';
+    const correctFormat = '01-09-1198';
+
+    const title = 'Shopping';
+    const description = 'Groceries';
+
     it('the Item class should exist', function () {
         expect(Item).to.exist;
     });
 
     describe("validDate", function () {
-        const wrongType = 12345;
-        const lessThanTenLetters = 'abcdef';
-        const noDash = 'abcdefghei';
-        const withDash = 'b5-15-3s1d';
-        const correctFormat = '01-09-1198';
-
 
         it('should return false when argument is not a string type', function () {
             expect(Item.isValidDate(wrongType)).to.be.false;
@@ -47,13 +50,6 @@ describe('Item class', function () {
     describe("Constructor", function () {
 
         let validItem;
-        let nonValidItem;
-
-
-        const title = 'Shopping';
-        const correctFormat = '01-09-1198';
-        const noDash = 'abcdefghei';
-        const description = 'Groceries';
 
         beforeEach(function () {
             validItem = new Item(title, correctFormat, description);
@@ -83,6 +79,25 @@ describe('Item class', function () {
                 expect(() => new Item(title, noDash, description)).to.throw(Error).with.property('message').that.includes('deadline was in an invalid format');
             });
 
+        });
+
+    });
+
+    describe('toggle', function () {
+        let item;
+
+        before(function () {
+            item = new Item(title, correctFormat, description);
+        })
+
+        it("when called, if done is false, should be assignment to true", function () {
+            item.toggle();
+            expect(item.done).to.be.true;
+        });
+
+        it('when called, if done is true, should be assignment to false', function () {
+            item.toggle();
+            expect(item.done).to.be.false;
         });
 
     });
