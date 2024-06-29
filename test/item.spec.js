@@ -56,21 +56,17 @@ describe('Item class', function () {
         const description = 'Groceries';
 
         beforeEach(function () {
-            nonValidItem = new Item(title, noDash, description);
             validItem = new Item(title, correctFormat, description);
         });
 
         it('should initialize title and description', function () {
             expect(validItem.title).to.equal("Shopping");
-            expect(nonValidItem.title).to.equal("Shopping");
 
-            expect(valid.Item.description).to.equal(description);
-            expect(nonValid.Item.description).to.equal(description);
+            expect(validItem.description).to.equal(description);
         });
 
         it('should set a property called done and set it to false', function () {
-            // expect(validItem.done).to.be.false; // wrong
-            expect(nonValidItem.done).to.be.false;
+            expect(validItem.done).to.be.false;
         });
 
         context('When validDate is true', function () {
@@ -84,7 +80,7 @@ describe('Item class', function () {
         context('When validDate is false', function () {
 
             it("should raise an error and print out: 'deadline was in an invalid format'", function () {
-                expect(new Item(title, noDash, description)).to.throw(Error).with.property('message').that.includes('deadline was in an invalid format');
+                expect(() => new Item(title, noDash, description)).to.throw(Error).with.property('message').that.includes('deadline was in an invalid format');
             });
 
         });
