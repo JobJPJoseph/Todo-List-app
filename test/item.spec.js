@@ -102,4 +102,30 @@ describe('Item class', function () {
 
     });
 
+    describe('mark', function () {
+
+        let item;
+
+        before(function () {
+            item = new Item(title, correctFormat, description);
+        })
+
+        context("When 'done' is true", function () {
+
+            it("should return a checkmark", function () {
+                expect(item.mark).to.equal(`[${String.fromCharCode(10003)}]`);
+            });
+
+        });
+
+        context("When 'done' is false", function () {
+
+            it("should return an empty array as a string", function () {
+                expect(item.mark).to.equal(`[ ]`);
+            });
+
+        });
+
+    });
+
 });
