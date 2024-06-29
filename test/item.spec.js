@@ -110,18 +110,18 @@ describe('Item class', function () {
             item = new Item(title, correctFormat, description);
         })
 
-        context("When 'done' is true", function () {
+        context("When 'done' is false", function () {
 
-            it("should return a checkmark", function () {
-                expect(item.mark).to.equal(`[${String.fromCharCode(10003)}]`);
+            it("should return an empty array as a string", function () {
+                expect(item.mark()).to.equal(`[ ]`);
             });
 
         });
 
-        context("When 'done' is false", function () {
+        context("When 'done' is true", function () {
 
-            it("should return an empty array as a string", function () {
-                expect(item.mark).to.equal(`[ ]`);
+            it("should return a checkmark", function () {
+                expect(item.mark()).to.equal(`[${String.fromCharCode(10003)}]`);
             });
 
         });
