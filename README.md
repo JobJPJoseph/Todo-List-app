@@ -29,4 +29,13 @@
     mark
         The purpose of this method is return a string that represents a checkmark enclosed in an array. If the 'done' property is false return a string that contains an empty array.
 
+### Purges Linked List
+    Originally this is a property of the List class. This property will represents a linked list of items that were removed from the array.
+
 ### List
+    There are going to be a significant change to the List class. We could try to make a linked list out of List.purges or we can add another property. Or we could do both.
+
+    Constructor
+        There needs to be 3 properties: label, items, purges. The label property represents the name of 'this' particular list.
+
+        We may change items to an object later but for now keep it as an array.
