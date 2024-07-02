@@ -32,6 +32,11 @@
 ### Purges Linked List
     Originally this is a property of the List class. This property will represents a linked list of items that were removed from the array.
 
+    The list properties we must have is: head, tail, length
+
+### Purges Linked List Node
+    The properties we must have is: value, and next, prev
+
 ### List
     There are going to be a significant change to the List class. We could try to make a linked list out of List.purges or we can add another property. Or we could do both.
 
