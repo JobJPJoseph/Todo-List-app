@@ -56,7 +56,7 @@ describe('Item class', function () {
         });
 
         it('should initialize title and description', function () {
-            expect(validItem.title).to.equal("Shopping");
+            expect(validItem.title).to.equal(title);
 
             expect(validItem.description).to.equal(description);
         });
