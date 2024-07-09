@@ -17,33 +17,25 @@ describe('Linked List Node Class', function () {
     const title = 'Shopping';
     const description = 'Groceries';
 
-    let purgeNode;
-    let nextPurgeNode;
-    let prevPurgeNode;
+    let node;
 
     let item;
-    let nextItem;
-    let prevItem;
 
-    before(function () {
+    beforeEach(function () {
         item = new Item(title, correctFormat, description);
-        // nextItem = new Item('WallArt', '02-23-1975', 'decoration for the room');
-        // prevItem = new Item('Carpet', '04-25-1957', 'decoration for the room');
 
-        purgeNode = new PurgeNode(item, null, null);
-        // nextPurgeNode = new PurgeNode(nextItem, null, null);
-        // prevPurgeNode = new PurgeNode(prevItem, null, null);
+        node = new PurgeNode(item, null, null);
     });
 
     describe('Constructor', function () {
 
         it('should initialize a value that represent an instance of Item', function () {
-            expect(purgeNode.value).to.deep.equal(item);
+            expect(node.value).to.deep.equal(item);
         });
 
         it('by defualt the next and prev property should be set to null', function () {
-            expect(purgeNode.prev).to.be.null;
-            expect(purgeNode.next).to.be.null;
+            expect(node.prev).to.be.null;
+            expect(node.next).to.be.null;
         });
 
     });
@@ -56,37 +48,39 @@ describe('Purge class', function () {
 
     describe('Constructor', function () {
         // Linked List
-        let purge;
+        let linkedList;
 
         // Items
-        let item;
-        let nextItem;
-        let prevItem;
+        let groceries;
+        let wallArt;
+        let carpet;
 
         // Just a node
-        let purgeNode;
-        let nextPurgeNode;
-        let prevPurgeNode;
+        let groceriesNode;
+        let wallArtNode;
+        let carpetNode;
 
-        before(function () {
-            purge = new Purge();
+        beforEach(function () {
+            groceries = new Item(title, correctFormat, description);
+            groceriesNode = new PurgeNode(groceries, null, null);
 
-            item = new Item(title, correctFormat, description);
-            nextItem = new Item('WallArt', '02-23-1975', 'decoration for the room');
-            prevItem = new Item('Carpet', '04-25-1957', 'decoration for the room');
+            wallArt = new Item('WallArt', '02-23-1975', 'decoration for the room');
+            wallArtNode = new PurgeNode(wallArt, null, null);
 
-            purgeNode = new PurgeNode(item, null, null);
-            nextPurgeNode = new PurgeNode(nextItem, null, null);
-            prevPurgeNode = new PurgeNode(prevItem, null, null);
+
+            carpet = new Item('Carpet', '04-25-1957', 'decoration for the room');
+            carpetNode = new PurgeNode(carpet, null, null);
+
+            linkedList = new Purge();
         })
 
         it('should initialize a property called head and tail that should be set to null', function () {
-            expect(purge.head).to.be.null;
-            expect(purge.tail).to.be.null;
+            expect(linkedList.head).to.be.null;
+            expect(linkedList.tail).to.be.null;
         });
 
         it('should initialize a property called length and be set to 0', function () {
-            expect(purge.length).to.equal(0);
+            expect(linkedList.length).to.equal(0);
         });
 
         // We are only working with enqueue and dequeue as FIFO
@@ -97,12 +91,14 @@ describe('Purge class', function () {
             context('When the Linked List is empty', function () {
 
                 it('should set the node as the head and as the tail', function () {
-                    expect(purge.head).to.equal(purgeNode);
-                    expect(purge.tail).to.equal(purgeNode);
+                    linkedList.enqueue(groceriesNode);
+                    expect(linkedList.head).to.equal(groceriesNode);
+                    expect(linkedList.tail).to.equal(groceriesNode);
                 });
 
                 it('should add to the length property', function () {
-                    expect(purge.length).to.equal(1);
+                    linkedList.enqueue(groceriesNode);
+                    expect(linkedList.length).to.equal(1);
                 });
 
             });
@@ -110,14 +106,20 @@ describe('Purge class', function () {
             context('When the linked List is not empty', function () {
 
                 it('should add the node to the end of the linked list or the current tail', function () {
-                    expect(purge.head).to.equal(purgeNode);
-                    expect(purge.tail).to.equal(nextPurgeNode);
-                    expect(purgeNode.next).to.equal(nextPurgeNode);
-                    expect(nextPurgeNode.prev).to.equal(purgeNode);
+                    linkedList.enqueue(groceriesNode);
+                    linkedList.enqueue(wallArtNode);
+
+                    expect(linkedList.head).to.equal(groceriesNode);
+                    expect(linkedList.tail).to.equal(wallArtNode);
+                    expect(groceriesNode.next).to.equal(wallArtNode);
+                    expect(wallArtNode.prev).to.equal(groceriesNode);
                 });
 
                 it('should add to the length property', function () {
-                    expect(purge.length).to.equal(2);
+                    linkedList.enqueue(groceriesNode);
+                    linkedList.enqueue(wallArtNode);
+
+                    expect(linkedList.length).to.equal(2);
                 });
 
             });
@@ -128,9 +130,20 @@ describe('Purge class', function () {
 
             context('When the Linked List is empty', function () {
 
+                it('should return null when the linked list is empty', function () {
+                    expect(linkedList.dequeue()).to.be.null;
+                });
+
             });
 
             context('When the linked List is not empty', function () {
+
+                it('should return the removed node', function () {
+                    linkedList.enqueue(groceries);
+                    const node = linkedList.dequeue();
+
+                    expect(node).to.deep.equal(groceries);
+                });
 
             });
 
