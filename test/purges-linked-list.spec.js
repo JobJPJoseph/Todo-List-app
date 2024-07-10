@@ -7,7 +7,7 @@ const expect = chai.expect;
 
 const spies = require("chai-spies");
 
-describe('Linked List Node Class', function () {
+describe('PurgeNode Class', function () {
 
     it('should initialize the PurgeNode class', function () {
         expect(PurgeNode).to.exist;
@@ -17,14 +17,14 @@ describe('Linked List Node Class', function () {
     const title = 'Shopping';
     const description = 'Groceries';
 
-    let node;
-
     let item;
+
+    let node;
 
     beforeEach(function () {
         item = new Item(title, correctFormat, description);
 
-        node = new PurgeNode(item, null, null);
+        node = new PurgeNode(item);
     });
 
     describe('Constructor', function () {
@@ -44,35 +44,43 @@ describe('Linked List Node Class', function () {
 
 describe('Purge class', function () {
 
-    expect(Purge).to.exist;
+    it('should initialize the Purge class', function () {
+        expect(Purge).to.exist;
+    });
+
+    // Linked List
+    let linkedList;
+
+    // Items
+    let groceries;
+    let wallArt;
+    let carpet;
+
+    //
+    const correctFormat = '01-09-1198';
+    const title = 'Shopping';
+    const description = 'Groceries';
+
+    // Just a node
+    let groceriesNode;
+    let wallArtNode;
+    let carpetNode;
+
+    beforeEach(function () {
+        groceries = new Item(title, correctFormat, description);
+        groceriesNode = new PurgeNode(groceries);
+
+        wallArt = new Item('WallArt', '02-23-1975', 'decoration for the room');
+        wallArtNode = new PurgeNode(wallArt);
+
+
+        carpet = new Item('Carpet', '04-25-1957', 'decoration for the room');
+        carpetNode = new PurgeNode(carpet);
+
+        linkedList = new Purge();
+    });
 
     describe('Constructor', function () {
-        // Linked List
-        let linkedList;
-
-        // Items
-        let groceries;
-        let wallArt;
-        let carpet;
-
-        // Just a node
-        let groceriesNode;
-        let wallArtNode;
-        let carpetNode;
-
-        beforEach(function () {
-            groceries = new Item(title, correctFormat, description);
-            groceriesNode = new PurgeNode(groceries, null, null);
-
-            wallArt = new Item('WallArt', '02-23-1975', 'decoration for the room');
-            wallArtNode = new PurgeNode(wallArt, null, null);
-
-
-            carpet = new Item('Carpet', '04-25-1957', 'decoration for the room');
-            carpetNode = new PurgeNode(carpet, null, null);
-
-            linkedList = new Purge();
-        })
 
         it('should initialize a property called head and tail that should be set to null', function () {
             expect(linkedList.head).to.be.null;
@@ -83,68 +91,88 @@ describe('Purge class', function () {
             expect(linkedList.length).to.equal(0);
         });
 
-        // We are only working with enqueue and dequeue as FIFO
-        // Both should be O(1) in Time complexity
+    });
 
-        describe('enqueue', function () {
+    // We are only working with enqueue and dequeue as FIFO
+    // Both should be O(1) in Time complexity
 
-            context('When the Linked List is empty', function () {
+    describe('enqueue', function () {
 
-                it('should set the node as the head and as the tail', function () {
-                    linkedList.enqueue(groceriesNode);
-                    expect(linkedList.head).to.equal(groceriesNode);
-                    expect(linkedList.tail).to.equal(groceriesNode);
-                });
+        context('When the Linked List is empty', function () {
 
-                it('should add to the length property', function () {
-                    linkedList.enqueue(groceriesNode);
-                    expect(linkedList.length).to.equal(1);
-                });
-
+            it('should set the node as the head and as the tail', function () {
+                linkedList.enqueue(groceriesNode);
+                expect(linkedList.head).to.equal(groceriesNode);
+                expect(linkedList.tail).to.equal(groceriesNode);
             });
 
-            context('When the linked List is not empty', function () {
-
-                it('should add the node to the end of the linked list or the current tail', function () {
-                    linkedList.enqueue(groceriesNode);
-                    linkedList.enqueue(wallArtNode);
-
-                    expect(linkedList.head).to.equal(groceriesNode);
-                    expect(linkedList.tail).to.equal(wallArtNode);
-                    expect(groceriesNode.next).to.equal(wallArtNode);
-                    expect(wallArtNode.prev).to.equal(groceriesNode);
-                });
-
-                it('should add to the length property', function () {
-                    linkedList.enqueue(groceriesNode);
-                    linkedList.enqueue(wallArtNode);
-
-                    expect(linkedList.length).to.equal(2);
-                });
-
+            it('should add to the length property', function () {
+                linkedList.enqueue(groceriesNode);
+                expect(linkedList.length).to.equal(1);
             });
 
         });
 
-        describe('dequeue', function () {
+        context('When the linked List is not empty', function () {
 
-            context('When the Linked List is empty', function () {
+            it('should add the node to the end of the linked list or the current tail', function () {
+                linkedList.enqueue(groceriesNode);
+                linkedList.enqueue(wallArtNode);
 
-                it('should return null when the linked list is empty', function () {
-                    expect(linkedList.dequeue()).to.be.null;
-                });
-
+                expect(linkedList.head).to.equal(groceriesNode);
+                expect(linkedList.tail).to.equal(wallArtNode);
+                expect(groceriesNode.next).to.equal(wallArtNode);
+                expect(wallArtNode.prev).to.equal(groceriesNode);
             });
 
-            context('When the linked List is not empty', function () {
+            it('should add to the length property', function () {
+                linkedList.enqueue(groceriesNode);
+                linkedList.enqueue(wallArtNode);
 
-                it('should return the removed node', function () {
-                    linkedList.enqueue(groceries);
-                    const node = linkedList.dequeue();
+                expect(linkedList.length).to.equal(2);
+            });
 
-                    expect(node).to.deep.equal(groceries);
-                });
+        });
 
+    });
+
+    describe('dequeue', function () {
+
+        context('When the Linked List is empty', function () {
+
+            it('should return null when the linked list is empty', function () {
+                expect(linkedList.dequeue()).to.be.null;
+            });
+
+        });
+
+        context('When the linked List is not empty', function () {
+
+            it('should return the removed node', function () {
+                linkedList.enqueue(groceries);
+                const node = linkedList.dequeue();
+
+                expect(node).to.deep.equal(groceries);
+                expect(linkedList.head).to.be.null;
+                expect(linkedList.tail).to.be.null;
+
+                linkedList.enqueue(carpetNode);
+                linkedList.enqueue(wallArtNode);
+
+                let node1 = linkedList.dequeue();
+
+                expect(node1).to.deep.equal(wallArtNode);
+                expect(linkedList.head).to.deep.equal(carpetNode);
+                expect(linkedList.tail).to.deep.equal(carpetNode);
+            });
+
+            it('should decrement the length', function () {
+                linkedList.enqueue(carpetNode);
+                linkedList.enqueue(groceriesNode);
+
+                linkedList.dequeue();
+
+                expect(linkedList.length).to.equal(1);
             });
 
         });
