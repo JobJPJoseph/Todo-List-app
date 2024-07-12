@@ -32,6 +32,14 @@
 ### Purges Linked List
     Originally this is a property of the List class. This property will represents a linked list of items that were removed from the array.
 
+    Constructor
+        This will have 3 properties: head, tail, length
+
+    enqueue
+        This will accept an argument that represent an node. If the linked List is empty, we will assign it as the head and tail. If it is not empty, attach the node to the tail.
+    dequeue
+        This method will remove the current tail and return the node.
+
     The list properties we must have is: head, tail, length
 
 ### Purges Linked List Node
