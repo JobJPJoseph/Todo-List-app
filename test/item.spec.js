@@ -106,7 +106,7 @@ describe('Item class', function () {
 
         let item;
 
-        before(function () {
+        beforeEach(function () {
             item = new Item(title, correctFormat, description);
         })
 
@@ -116,12 +116,26 @@ describe('Item class', function () {
                 expect(item.mark()).to.equal(`[ ]`);
             });
 
+            it('should call toggle', function () {
+                const toggleSpy = chai.spy.on(item, 'toggle');
+                item.mark();
+                expect(toggleSpy).to.have.been.called;
+            });
+
         });
 
         context("When 'done' is true", function () {
 
             it("should return a checkmark", function () {
+                item.mark();
                 expect(item.mark()).to.equal(`[${String.fromCharCode(10003)}]`);
+            });
+
+            it('should call toggle', function () {
+                const toggleSpy = chai.spy.on(item, 'toggle');
+                item.mark();
+                item.mark();
+                expect(toggleSpy).to.have.been.called;
             });
 
         });
