@@ -52,3 +52,10 @@
         There needs to be 3 properties: label, items, purges. The label property represents the name of 'this' particular list.
 
         We may change items to an object later but for now keep it as an array.
+
+        We need to make changes to the items property. Instead of pushing an instance into items, we will first preallocate space to increase the speed of adding an instance to the array.
+
+    addItem
+        Based on our original code in Ruby, we noticed some issues. The first is repeat code. We don't need to test of the deadline is valid when the constructor of the Item class already does so. Secondly we don't need to return a boolean when if true an instance is made. When its false, a Error is thrown.
+
+        So we will change it. All we need to create is the item by calling Item class. We will need to import it but don't extend.
