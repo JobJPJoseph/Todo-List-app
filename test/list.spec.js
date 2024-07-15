@@ -141,4 +141,60 @@ describe("List class", function () {
 
     });
 
+    describe('up', function () {
+        // This will utilize a while loop
+        // We will continue to swap in till it hits zero
+
+        it('should swap call List.swap', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+
+            const spyUp = chai.spy.on(list, 'swap');
+            list.up(0, 2);
+
+            expect(spyUp).to.have.been.called;
+        });
+
+        it('should switch the switch the two elements (Item instances) in items', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+
+            list.up(0, 5);
+
+            expect(list.items[1]).to.deep.equal(controller);
+            expect(list.items[0]).to.deep.equal(videoGame);
+        });
+
+    });
+
+    describe('down', function () {
+        // This will utilize a while loop
+        // We will continue to swap in till it hits zero
+
+        it('should swap call List.swap', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+
+            const spyUp = chai.spy.on(list, 'swap');
+            list.up(0, 2);
+
+            expect(spyUp).to.have.been.called;
+        });
+
+        it('should switch the switch the two elements (Item instances) in items', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+
+            list.down(0, 5);
+
+            expect(list.items[2]).to.deep.equal(controller);
+            expect(list.items[1]).to.deep.equal(videoGame);
+        });
+
+    });
+
 });
