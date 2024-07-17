@@ -75,35 +75,40 @@ describe("List class", function () {
 
     });
 
-    describe('isValidIndex', function () {
+    // Please check the logic on swap, up, down. It does not make sense.
+    // Swap, up, down, removeItem all call or lead into isValidIndex. Its redundant
+    // We could make it work if we change the conext but from the main class
+    // This test will be moved to the Board spec file.
 
-        it('should accept a single argument', function () {
-            const spyIsValidIndex = chai.spy.on(list, 'isValidIndex');
-            let integer = 2;
-            list.spyIsValidIndex(integer);
-            expect(spyIsValidIndex).to.have.been.called.with(integer);
-            chai.spy.restore(list, 'isValidIndex');
-        });
+    // describe('isValidIndex', function () {
 
-        context('when in range', function () {
+    //     it('should accept a single argument', function () {
+    //         const spyIsValidIndex = chai.spy.on(list, 'isValidIndex');
+    //         let integer = 2;
+    //         list.spyIsValidIndex(integer);
+    //         expect(spyIsValidIndex).to.have.been.called.with(integer);
+    //         chai.spy.restore(list, 'isValidIndex');
+    //     });
 
-            it('should return true', function () {
-                list.addItem('Controller', '10-25-2025', 'For the PS5');
-                list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-                expect(list.isValidIndex(1)).to.be.true;
-            });
+    //     context('when in range', function () {
 
-        });
+    //         it('should return true', function () {
+    //             list.addItem('Controller', '10-25-2025', 'For the PS5');
+    //             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+    //             expect(list.isValidIndex(1)).to.be.true;
+    //         });
 
-        context('when not in range', function () {
+    //     });
 
-            it('should return false', function () {
-                expect(list.isValidIndex(5)).to.be.false;
-            });
+    //     context('when not in range', function () {
 
-        });
+    //         it('should return false', function () {
+    //             expect(list.isValidIndex(5)).to.be.false;
+    //         });
 
-    });
+    //     });
+
+    // });
 
     describe('swap', function () {
 
@@ -194,6 +199,34 @@ describe("List class", function () {
             expect(list.items[2]).to.deep.equal(controller);
             expect(list.items[1]).to.deep.equal(videoGame);
         });
+
+    });
+
+    describe('toggleItem', function () {
+
+        // We already tested if it was working properly. Just make sure to call it.
+        it('should accept a single argument that represent an integer', function () {
+            const spyToggleItem = chai.spy.on(list, 'toggleItem');
+            const integer = 0;
+
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.toggleItem(integer);
+
+            expect(spyToggleItem).to.have.called.with(integer);
+            chai.spy.restore(list, 'toggleItem');
+        });
+
+        it('should call item.toggle on the first index of items', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+
+            list.toggleItem(0);
+
+            expect(list.items[0].mark).to.equal(`[${String.fromCharCode(10003)}]`);
+        });
+
+    });
+
+    describe('purge_Item', function () {
 
     });
 
