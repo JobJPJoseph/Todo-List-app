@@ -8,6 +8,8 @@ const expect = chai.expect;
 
 const spies = require("chai-spies");
 
+chai.use(spies);
+
 describe("List class", function () {
 
     it('should initalize the List class', function () {
@@ -72,6 +74,15 @@ describe("List class", function () {
             });
 
         });
+
+    });
+
+    // We need a method that removes an item from items
+    // We need to also make sure in solving the the problem that
+    // We move everything after forward.
+    // We need to return the item that was removed
+
+    describe('removeItem', function () {
 
     });
 
@@ -226,8 +237,43 @@ describe("List class", function () {
 
     });
 
-    describe('purge_Item', function () {
+    describe('purgeItem', function () {
 
+        const controller = new Item('Controller', '10-25-2025', 'For the PS5');
+        const videoGame = new Item('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+
+        // This is a linked list
+        context('When items is empty', function () {
+
+            it(`should print 'There are no items in this list.label'`, function () {
+
+            });
+
+        });
+
+        context('When items is not empty', function () {
+
+            it('should move the specified item into the linked list', function () {
+                list.addItem('Controller', '10-25-2025', 'For the PS5');
+                list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+
+                let index = 1;
+                list.purgeItem(index);
+
+                expect(list.purges.length).to.equal(1);
+                expect(list.purges.value).to.deep.equal(videoGame);
+                expect(list.length).to.equal(1);
+            });
+
+        });
+
+    });
+
+    describe('undo', function () {
+
+        // to replicate the undo we need to make sure that the item removed
+        // returns back to its original index instead of just being push to the
+        // back of the array.
     });
 
 });

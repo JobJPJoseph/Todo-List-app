@@ -81,6 +81,10 @@ describe('Item class', function () {
 
         });
 
+        it('should initialize property called index and set it to null', function () {
+            expect(validItem.index).to.be.null;
+        });
+
     });
 
     describe('toggle', function () {
