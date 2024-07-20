@@ -65,6 +65,11 @@ describe('Item class', function () {
             expect(validItem.done).to.be.false;
         });
 
+
+        it('should initialize property called index and set it to null', function () {
+            expect(validItem.index).to.be.null;
+        });
+
         context('When validDate is true', function () {
 
             it('should initailize deadline', function () {
@@ -81,9 +86,6 @@ describe('Item class', function () {
 
         });
 
-        it('should initialize property called index and set it to null', function () {
-            expect(validItem.index).to.be.null;
-        });
 
     });
 

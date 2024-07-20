@@ -26,13 +26,11 @@ describe("List class", function () {
     // purge class
     let linkedList;
 
+    beforeEach(function () {
+        list = new List('Gaming console');
+    });
+
     describe('Constructor', function () {
-
-        beforeEach(function () {
-
-
-            list = new List('Gaming console');
-        });
 
         it('should initialize a property called label', function () {
             expect(list.label).to.equal('Gaming console');
@@ -65,6 +63,14 @@ describe("List class", function () {
                 expect(list.length).to.equal(1);
             });
 
+            it('should set the item index', function () {
+                list.addItem('Controller', '10-25-2025', 'For the PS5');
+                list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+
+                expect(list.items[0].index).to.equal(0);
+                expect(list.items[1].index).to.equal(1);
+            });
+
         });
 
         context('When the item is not valid', function () {
@@ -83,6 +89,43 @@ describe("List class", function () {
     // We need to return the item that was removed
 
     describe('removeItem', function () {
+
+        it('should accept an index to remove', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Tekken 8', '06-28-2024', 'Fighting Game');
+
+            const spyRemoveItem = chai.spy.on(list, 'removeItem');
+            const index = 1;
+            list.removeItem(index);
+
+            expect(spyRemoveItem).to.have.called.with(index);
+        });
+
+        it('should remove the item from the list and return it', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Tekken 8', '06-28-2024', 'Fighting Game');
+
+            const index = 1;
+            let game = list.removeItem(index);
+
+            expect(game.title).to.equal('Elden Ring');
+        });
+
+        it('should adjust the index property of every item that comes after', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Tekken 8', '06-28-2024', 'Fighting Game');
+
+            let index = 0;
+            list.removeItem(index);
+
+            expect(list.items[0].title).to.equal('Elden Ring');
+            expect(list.items[0].index).to.equal(0);
+            expect(list.items[1].title).to.equal('Tekken 8');
+            expect(list.items[1].index).to.equal(1);
+        });
 
     });
 
