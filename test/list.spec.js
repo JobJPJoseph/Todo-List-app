@@ -165,6 +165,9 @@ describe("List class", function () {
     // });
 
     describe('swap', function () {
+        // For context, we are not leaping from index to index.
+        // We are doing bubble sort with the index next to use.
+        // Make sure your test reflect that.
 
         let controller = new Item('Controller', '10-25-2025', 'For the PS5');
         let videoGame = new Item('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
@@ -179,7 +182,19 @@ describe("List class", function () {
 
                 expect(list.items[0]).to.deep.equal(videoGame);
                 expect(list.items[1]).to.deep.equal(controller);
+            });
 
+            it('should swap the indices of the two items', function () {
+                list.addItem('Controller', '10-25-2025', 'For the PS5');
+                list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+
+                list.swap(0, 1);
+
+                expect(list.items[0].title).to.equal('Elden Ring');
+                expect(list.items[0].index).to.equal(0);
+
+                expect(list.items[1].title).to.equal('Controller');
+                expect(list.items[1].index).to.equal(1);
             });
 
         });
@@ -204,6 +219,14 @@ describe("List class", function () {
         // This will utilize a while loop
         // We will continue to swap in till it hits zero
 
+        // We spotted an edge case here.
+        // If we switch the first and last item we have an issue. We can solve this with a
+        // simple if statement but it will make our code messy.
+
+        // list.up and list.down will be linear.
+            // It will call swap and iterate and swap through adjacent items.
+            // Make sure the methods reflect that!!!
+
         it('should swap call List.swap', function () {
             list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
@@ -213,17 +236,26 @@ describe("List class", function () {
             list.up(0, 2);
 
             expect(spyUp).to.have.been.called;
+            chai.spy.restore(list, 'swap');
         });
 
         it('should switch the switch the two elements (Item instances) in items', function () {
             list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
             list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
 
-            list.up(0, 5);
+            list.up(0, 2);
 
-            expect(list.items[1]).to.deep.equal(controller);
-            expect(list.items[0]).to.deep.equal(videoGame);
+            expect(list.items[0].title).to.equal('Controller');
+            expect(list.items[0].index).to.equal(0);
+
+            list.up(2, 2);
+
+            expect(list.items[0].title).to.equal('Console');
+            expect(list.items[0].index).to.equal(0);
+            expect(list.items[1].title).to.equal('Controller');
+            expect(list.items[1].index).to.equal(1);
         });
 
     });
@@ -232,6 +264,14 @@ describe("List class", function () {
         // This will utilize a while loop
         // We will continue to swap in till it hits zero
 
+        // We spotted an edge case here.
+        // If we switch the first and last item we have an issue. We can solve this with a
+        // simple if statement but it will make our code messy.
+
+        // list.up and list.down will be linear.
+            // It will call swap and iterate and swap through adjacent items.
+            // Make sure the methods reflect that!!!
+
         it('should swap call List.swap', function () {
             list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
@@ -241,18 +281,28 @@ describe("List class", function () {
             list.up(0, 2);
 
             expect(spyUp).to.have.been.called;
+            chai.spy.restore(list, 'swap');
         });
 
         it('should switch the switch the two elements (Item instances) in items', function () {
             list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
             list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
 
-            list.down(0, 5);
+            list.up(3, 2);
 
-            expect(list.items[2]).to.deep.equal(controller);
-            expect(list.items[1]).to.deep.equal(videoGame);
+            expect(list.items[3].title).to.equal('Tekken 8');
+            expect(list.items[3].index).to.equal(3);
+
+            list.up(0, 2);
+
+            expect(list.items[2].title).to.equal('Controller');
+            expect(list.items[2].index).to.equal(2);
+            expect(list.items[1].title).to.equal('Console');
+            expect(list.items[1].index).to.equal(1);
         });
+
 
     });
 
