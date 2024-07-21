@@ -16,6 +16,10 @@ describe("List class", function () {
         expect(List).to.exist;
     });
 
+    it('should initalize the Linked List class', function () {
+        expect(Purge).to.exist;
+    });
+
     // list class
     let list;
 
@@ -28,6 +32,7 @@ describe("List class", function () {
 
     beforeEach(function () {
         list = new List('Gaming console');
+        list.purges = new Purge();
     });
 
     describe('Constructor', function () {
@@ -49,7 +54,7 @@ describe("List class", function () {
         });
 
         it('should initialize a property called purges that should represent a linked list', function () {
-            expect(list.purges).to.be.null;
+            expect(list.purges).to.be.an('object');
         });
 
     });
@@ -336,6 +341,10 @@ describe("List class", function () {
         const videoGame = new Item('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
 
         // This is a linked list
+        // The method should refer to list.purges
+        // To create a node, refer to PurgeNode
+        // To add a node refer to list.purges.enqueue or list.purges.dequeue to remove
+
         context('When items is empty', function () {
 
             it(`should print 'There are no items in this list.label'`, function () {

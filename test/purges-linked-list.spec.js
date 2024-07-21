@@ -69,11 +69,11 @@ describe('Purge class', function () {
         groceriesNode = new PurgeNode(groceries);
 
         wallArt = new Item('WallArt', '02-23-1975', 'decoration for the room');
-        wallArtNode = new PurgeNode(wallArt);
+        // wallArtNode = new PurgeNode(wallArt);
 
 
         carpet = new Item('Carpet', '04-25-1957', 'decoration for the room');
-        carpetNode = new PurgeNode(carpet);
+        // carpetNode = new PurgeNode(carpet);
 
         linkedList = new Purge();
     });
@@ -99,13 +99,13 @@ describe('Purge class', function () {
         context('When the Linked List is empty', function () {
 
             it('should set the node as the head and as the tail', function () {
-                linkedList.enqueue(groceriesNode);
-                expect(linkedList.head).to.equal(groceriesNode);
-                expect(linkedList.tail).to.equal(groceriesNode);
+                linkedList.enqueue(groceries);
+                expect(linkedList.head.value).to.deep.equal(groceries);
+                expect(linkedList.tail.value).to.deep.equal(groceries);
             });
 
             it('should add to the length property', function () {
-                linkedList.enqueue(groceriesNode);
+                linkedList.enqueue(groceries);
                 expect(linkedList.length).to.equal(1);
             });
 
@@ -114,18 +114,16 @@ describe('Purge class', function () {
         context('When the linked List is not empty', function () {
 
             it('should add the node to the end of the linked list or the current tail', function () {
-                linkedList.enqueue(groceriesNode);
-                linkedList.enqueue(wallArtNode);
+                linkedList.enqueue(groceries);
+                linkedList.enqueue(wallArt);
 
-                expect(linkedList.head).to.equal(groceriesNode);
-                expect(linkedList.tail).to.equal(wallArtNode);
-                expect(groceriesNode.next).to.equal(wallArtNode);
-                expect(wallArtNode.prev).to.equal(groceriesNode);
+                expect(linkedList.head.value).to.deep.equal(groceries);
+                expect(linkedList.tail.value).to.deep.equal(wallArt);
             });
 
             it('should add to the length property', function () {
-                linkedList.enqueue(groceriesNode);
-                linkedList.enqueue(wallArtNode);
+                linkedList.enqueue(groceries);
+                linkedList.enqueue(wallArt);
 
                 expect(linkedList.length).to.equal(2);
             });
@@ -150,23 +148,23 @@ describe('Purge class', function () {
                 linkedList.enqueue(groceries);
                 const node = linkedList.dequeue();
 
-                expect(node).to.deep.equal(groceries);
+                expect(node.value).to.deep.equal(groceries);
                 expect(linkedList.head).to.be.null;
                 expect(linkedList.tail).to.be.null;
 
-                linkedList.enqueue(carpetNode);
-                linkedList.enqueue(wallArtNode);
+                linkedList.enqueue(carpet);
+                linkedList.enqueue(wallArt);
 
                 let node1 = linkedList.dequeue();
 
-                expect(node1).to.deep.equal(wallArtNode);
-                expect(linkedList.head).to.deep.equal(carpetNode);
-                expect(linkedList.tail).to.deep.equal(carpetNode);
+                expect(node1.value).to.deep.equal(wallArt);
+                expect(linkedList.head.value).to.deep.equal(carpet);
+                expect(linkedList.tail.value).to.deep.equal(carpet);
             });
 
             it('should decrement the length', function () {
-                linkedList.enqueue(carpetNode);
-                linkedList.enqueue(groceriesNode);
+                linkedList.enqueue(carpet);
+                linkedList.enqueue(groceries);
 
                 linkedList.dequeue();
 
