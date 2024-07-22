@@ -455,4 +455,19 @@ describe("List class", function () {
 
     });
 
+    // printing items
+
+    describe('priority', function () {
+
+        it('should return the first index of list.items', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+
+            let item = list.priority();
+
+            expect(item.title).to.equal('Controller');
+        });
+
+    });
+
 });
