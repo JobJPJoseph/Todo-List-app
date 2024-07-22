@@ -358,15 +358,42 @@ describe("List class", function () {
             it('should move the specified item into the linked list', function () {
                 list.addItem('Controller', '10-25-2025', 'For the PS5');
                 list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+                list.addItem('Console', '04-12-2026', 'PS5 Console');
+                list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
 
                 let index = 1;
                 list.purgeItem(index);
 
+                /*
+                This will accept an index refering to the item we want to remove in items.
+                We will call list.removeItem which will return an item and adjust the indices
+                Then we will use the item and queue it into the list.purges.enqueue
+                */
+
                 expect(list.purges.length).to.equal(1);
-                expect(list.purges.value).to.deep.equal(videoGame);
-                expect(list.length).to.equal(1);
+                expect(list.purges.head.value).to.deep.equal(videoGame);
+                expect(list.length).to.equal(3);
             });
 
+        });
+
+    });
+
+    describe('removeNode', function () {
+
+        it('should dequeue from a linked list and return the item', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+
+            let index = 1;
+            list.purgeItem(index); // enqueuing into the linked list
+
+            let item = list.removeNode().value;
+
+            expect(item.label).to.equal('Eldin Ring');
+            expect(item.index).to.equal(1);
         });
 
     });
@@ -376,6 +403,56 @@ describe("List class", function () {
         // to replicate the undo we need to make sure that the item removed
         // returns back to its original index instead of just being push to the
         // back of the array.
+
+        it('should call list.removeNode', function () {
+            const spyRemoveNode = chai.spy.on(list, 'removeNode');
+
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+
+            let index = 1;
+            list.purgeItem(index); // enqueuing into the linked list
+
+            list.undo();
+
+            expect(spyRemoveNode).to.have.been.called;
+        });
+
+        it('should add the removed node back into its original position in items', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+
+            let index = 1;
+            list.purgeItem(index); // enqueuing into the linked list
+
+            list.undo();
+
+            expect(list.items[1].label).to.equal('Elden Ring');
+            expect(list.items[1].index).to.equal(1);
+        });
+
+        it('should update the indices of the items that comes after the recently added item', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+
+            let index = 1;
+            list.purgeItem(index); // enqueuing into the linked list
+
+            list.undo();
+
+            expect(list.items[3].label).to.equal('Tekken 8');
+            expect(list.items[3].index).to.equal(3);
+
+            expect(list.items[2].label).to.equal('Console');
+            expect(list.items[2].index).to.equal(2);
+        });
+
     });
 
 });
