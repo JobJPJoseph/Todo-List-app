@@ -469,4 +469,50 @@ describe("List class", function () {
 
     });
 
+    describe('sortByDeadline', function () {
+
+        // There will be two nested function expressions
+            // One that will sort by acsending and decsending order
+            //
+
+        context('descending order', function () {
+
+            it('should sort and muntate items based on earliest ', function () {
+                list.addItem('Controller', '10-25-2025', 'For the PS5');
+                list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+                list.addItem('Console', '04-12-2026', 'PS5 Console');
+                list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+
+                let input = 'decsending';
+                list.sortByDeadline(input) // There will be a defualt function
+
+                expect(list.items[0].title).to.equal('Tekken 8');
+                expect(list.items[1].title).to.equal('Console');
+                expect(list.items[2].title).to.equal('Controller');
+                expect(list.items[3].title).to.equal('Elden Ring');
+            });
+
+        });
+
+        context('ascending order', function () {
+
+            it('should sort and muntate items based on earliest ', function () {
+                list.addItem('Controller', '10-25-2025', 'For the PS5');
+                list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+                list.addItem('Console', '04-12-2026', 'PS5 Console');
+                list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+
+                let input = 'acsending';
+                list.sortByDeadline(input) // There will be a defualt function
+
+                expect(list.items[0].title).to.equal('Elden Ring');
+                expect(list.items[1].title).to.equal('Controller');
+                expect(list.items[2].title).to.equal('Console');
+                expect(list.items[3].title).to.equal('Tekken 8');
+            });
+
+        });
+
+    });
+
 });
