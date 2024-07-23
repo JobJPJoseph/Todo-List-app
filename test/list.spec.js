@@ -134,41 +134,6 @@ describe("List class", function () {
 
     });
 
-    // Please check the logic on swap, up, down. It does not make sense.
-    // Swap, up, down, removeItem all call or lead into isValidIndex. Its redundant
-    // We could make it work if we change the conext but from the main class
-    // This test will be moved to the Board spec file.
-
-    // describe('isValidIndex', function () {
-
-    //     it('should accept a single argument', function () {
-    //         const spyIsValidIndex = chai.spy.on(list, 'isValidIndex');
-    //         let integer = 2;
-    //         list.spyIsValidIndex(integer);
-    //         expect(spyIsValidIndex).to.have.been.called.with(integer);
-    //         chai.spy.restore(list, 'isValidIndex');
-    //     });
-
-    //     context('when in range', function () {
-
-    //         it('should return true', function () {
-    //             list.addItem('Controller', '10-25-2025', 'For the PS5');
-    //             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-    //             expect(list.isValidIndex(1)).to.be.true;
-    //         });
-
-    //     });
-
-    //     context('when not in range', function () {
-
-    //         it('should return false', function () {
-    //             expect(list.isValidIndex(5)).to.be.false;
-    //         });
-
-    //     });
-
-    // });
-
     describe('swap', function () {
         // For context, we are not leaping from index to index.
         // We are doing bubble sort with the index next to use.
@@ -451,6 +416,40 @@ describe("List class", function () {
 
             expect(list.items[2].label).to.equal('Console');
             expect(list.items[2].index).to.equal(2);
+        });
+
+    });
+
+    describe('removeMarkTasks', function () {
+
+        it('should remove all mark task and add them to purges', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+
+            list.toggleItem(1);
+            list.toggleItem(3);
+
+            list.removeMarkTasks();
+
+            expect(list.purges.tail.value.title).to.equal('Elden Ring');
+            expect(list.purges.head.value.title).to.equal('Tekken 8');
+        });
+
+        it('should update the indices from removing all the mark task', function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+
+            list.toggleItem(1);
+            list.toggleItem(3);
+
+            list.removeMarkTasks();
+
+            expect(list.items[1].index).to.equal(1);
+            expect(list.items[1].title).to.equal('Console');
         });
 
     });
