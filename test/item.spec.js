@@ -116,6 +116,10 @@ describe('Item class', function () {
             item = new Item(title, correctFormat, description);
         })
 
+        afterEach(function () {
+            chai.spy.restore(item, 'toggle');
+        });
+
         context("When 'done' is false", function () {
 
             it("should return an empty array as a string", function () {
