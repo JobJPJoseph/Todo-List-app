@@ -1,6 +1,6 @@
 const List = require("../lib/list");
 const Item = require("../lib/item");
-const { Purge, PurgeNode } = require('../lib/purges-linked-list');
+const { Purge } = require('../lib/purges-linked-list');
 
 const chai = require("chai");
 
@@ -22,13 +22,6 @@ describe("List class", function () {
 
     // list class
     let list;
-
-    // item class
-    let controller;
-    let videoGame;
-
-    // purge class
-    let linkedList;
 
     beforeEach(function () {
         list = new List('Gaming console');
@@ -139,9 +132,6 @@ describe("List class", function () {
         // We are doing bubble sort with the index next to use.
         // Make sure your test reflect that.
 
-        let controller = new Item('Controller', '10-25-2025', 'For the PS5');
-        let videoGame = new Item('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-
         context('When we have a valid swap', function () {
 
             it('should swap the two indices in place', function () {
@@ -150,8 +140,8 @@ describe("List class", function () {
 
                 list.swap(0, 1);
 
-                expect(list.items[0]).to.deep.equal(videoGame);
-                expect(list.items[1]).to.deep.equal(controller);
+                expect(list.items[0].title).to.equal('Elden Ring');
+                expect(list.items[1].title).to.equal('Controller');
             });
 
             it('should swap the indices of the two items', function () {
@@ -177,8 +167,8 @@ describe("List class", function () {
 
                 list.swap(0, 7);
 
-                expect(list.items[0]).to.deep.equal(controller);
-                expect(list.items[1]).to.deep.equal(videoGame);
+                expect(list.items[0].title).to.equal('Controller');
+                expect(list.items[1].title).to.equal('Elden Ring');
             });
 
         });
@@ -242,11 +232,14 @@ describe("List class", function () {
             // It will call swap and iterate and swap through adjacent items.
             // Make sure the methods reflect that!!!
 
-        it('should swap call List.swap', function () {
+        beforeEach(function() {
             list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
             list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+        });
 
+        it('should swap call List.swap', function () {
             const spyUp = chai.spy.on(list, 'swap');
             list.up(0, 2);
 
@@ -255,11 +248,6 @@ describe("List class", function () {
         });
 
         it('should switch the switch the two elements (Item instances) in items', function () {
-            list.addItem('Controller', '10-25-2025', 'For the PS5');
-            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-            list.addItem('Console', '04-12-2026', 'PS5 Console');
-            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
-
             list.up(3, 2);
 
             expect(list.items[3].title).to.equal('Tekken 8');
@@ -278,12 +266,15 @@ describe("List class", function () {
 
     describe('toggleItem', function () {
 
+        beforeEach(function() {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+        });
+
         // We already tested if it was working properly. Just make sure to call it.
         it('should accept a single argument that represent an integer', function () {
             const spyToggleItem = chai.spy.on(list, 'toggleItem');
             const integer = 0;
 
-            list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.toggleItem(integer);
 
             expect(spyToggleItem).to.have.called.with(integer);
@@ -291,8 +282,6 @@ describe("List class", function () {
         });
 
         it('should call item.toggle on the first index of items', function () {
-            list.addItem('Controller', '10-25-2025', 'For the PS5');
-
             list.toggleItem(0);
 
             expect(list.items[0].mark).to.equal(`[${String.fromCharCode(10003)}]`);
@@ -346,15 +335,15 @@ describe("List class", function () {
 
     describe('removeNode', function () {
 
-        it('should dequeue from a linked list and return the item', function () {
+        beforeEach(function() {
             list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
             list.addItem('Console', '04-12-2026', 'PS5 Console');
             list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+            list.purgeItem(1); // enqueuing into the linked list
+        });
 
-            let index = 1;
-            list.purgeItem(index); // enqueuing into the linked list
-
+        it('should dequeue from a linked list and return the item', function () {
             let item = list.removeNode().value;
 
             expect(item.label).to.equal('Eldin Ring');
@@ -369,16 +358,16 @@ describe("List class", function () {
         // returns back to its original index instead of just being push to the
         // back of the array.
 
-        it('should call list.removeNode', function () {
-            const spyRemoveNode = chai.spy.on(list, 'removeNode');
-
+        beforeEach(function() {
             list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
             list.addItem('Console', '04-12-2026', 'PS5 Console');
             list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+            list.purgeItem(1); // enqueuing into the linked list
+        });
 
-            let index = 1;
-            list.purgeItem(index); // enqueuing into the linked list
+        it('should call list.removeNode', function () {
+            const spyRemoveNode = chai.spy.on(list, 'removeNode');
 
             list.undo();
 
@@ -386,14 +375,6 @@ describe("List class", function () {
         });
 
         it('should add the removed node back into its original position in items', function () {
-            list.addItem('Controller', '10-25-2025', 'For the PS5');
-            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-            list.addItem('Console', '04-12-2026', 'PS5 Console');
-            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
-
-            let index = 1;
-            list.purgeItem(index); // enqueuing into the linked list
-
             list.undo();
 
             expect(list.items[1].label).to.equal('Elden Ring');
@@ -401,14 +382,6 @@ describe("List class", function () {
         });
 
         it('should update the indices of the items that comes after the recently added item', function () {
-            list.addItem('Controller', '10-25-2025', 'For the PS5');
-            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-            list.addItem('Console', '04-12-2026', 'PS5 Console');
-            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
-
-            let index = 1;
-            list.purgeItem(index); // enqueuing into the linked list
-
             list.undo();
 
             expect(list.items[3].label).to.equal('Tekken 8');
@@ -422,15 +395,16 @@ describe("List class", function () {
 
     describe('removeMarkTasks', function () {
 
-        it('should remove all mark task and add them to purges', function () {
+        beforeEach(function() {
             list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
             list.addItem('Console', '04-12-2026', 'PS5 Console');
             list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
-
             list.toggleItem(1);
             list.toggleItem(3);
+        });
 
+        it('should remove all mark task and add them to purges', function () {
             list.removeMarkTasks();
 
             expect(list.purges.tail.value.title).to.equal('Elden Ring');
@@ -438,14 +412,6 @@ describe("List class", function () {
         });
 
         it('should update the indices from removing all the mark task', function () {
-            list.addItem('Controller', '10-25-2025', 'For the PS5');
-            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-            list.addItem('Console', '04-12-2026', 'PS5 Console');
-            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
-
-            list.toggleItem(1);
-            list.toggleItem(3);
-
             list.removeMarkTasks();
 
             expect(list.items[1].index).to.equal(1);
@@ -458,10 +424,12 @@ describe("List class", function () {
 
     describe('priority', function () {
 
-        it('should return the first index of list.items', function () {
+        beforeEach(function() {
             list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+        });
 
+        it('should return the first index of list.items', function () {
             let item = list.priority();
 
             expect(item.title).to.equal('Controller');
@@ -473,16 +441,17 @@ describe("List class", function () {
 
         // There will be two nested function expressions
             // One that will sort by acsending and decsending order
-            //
+
+        beforeEach(function() {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+        });
 
         context('descending order', function () {
 
             it('should sort and muntate items based on earliest ', function () {
-                list.addItem('Controller', '10-25-2025', 'For the PS5');
-                list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-                list.addItem('Console', '04-12-2026', 'PS5 Console');
-                list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
-
                 let input = 'decsending';
                 list.sortByDeadline(input) // There will be a defualt function
 
@@ -497,11 +466,6 @@ describe("List class", function () {
         context('ascending order', function () {
 
             it('should sort and muntate items based on earliest ', function () {
-                list.addItem('Controller', '10-25-2025', 'For the PS5');
-                list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-                list.addItem('Console', '04-12-2026', 'PS5 Console');
-                list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
-
                 let input = 'acsending';
                 list.sortByDeadline(input) // There will be a defualt function
 
