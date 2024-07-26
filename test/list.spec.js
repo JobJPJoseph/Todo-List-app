@@ -25,7 +25,7 @@ describe("List class", function () {
 
     beforeEach(function () {
         list = new List('Gaming console');
-        list.purges = new Purge();
+        // list.purges = new Purge();
     });
 
     describe('Constructor', function () {
@@ -35,7 +35,7 @@ describe("List class", function () {
         });
 
         it('should initialize a property that is an array type called items', function () {
-            expect(list.items).to.be.a.array;
+            expect(list.items).to.be.an('array');
         });
 
         it('should preallocate 10 indices for the items property', function () {
@@ -287,6 +287,13 @@ describe("List class", function () {
         // To create a node, refer to PurgeNode
         // To add a node refer to list.purges.enqueue or list.purges.dequeue to remove
 
+        beforeEach(function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+        });
+
         context('When items is empty', function () {
 
             it(`should print 'There are no items in this list.label'`, function () {
@@ -298,11 +305,6 @@ describe("List class", function () {
         context('When items is not empty', function () {
 
             it('should move the specified item into the linked list', function () {
-                list.addItem('Controller', '10-25-2025', 'For the PS5');
-                list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-                list.addItem('Console', '04-12-2026', 'PS5 Console');
-                list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
-
                 let index = 1;
                 list.purgeItem(index);
 
@@ -313,7 +315,7 @@ describe("List class", function () {
                 */
 
                 expect(list.purges.length).to.equal(1);
-                expect(list.purges.head.value).to.deep.equal(videoGame);
+                expect(list.purges.head.value.title).to('Elden Ring');
                 expect(list.length).to.equal(3);
             });
 
