@@ -88,11 +88,13 @@ describe("List class", function () {
 
     describe('removeItem', function () {
 
-        it('should accept an index to remove', function () {
+        beforeEach(function () {
             list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
             list.addItem('Tekken 8', '06-28-2024', 'Fighting Game');
+        });
 
+        it('should accept an index to remove', function () {
             const spyRemoveItem = chai.spy.on(list, 'removeItem');
             const index = 1;
             list.removeItem(index);
@@ -101,10 +103,6 @@ describe("List class", function () {
         });
 
         it('should remove the item from the list and return it', function () {
-            list.addItem('Controller', '10-25-2025', 'For the PS5');
-            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-            list.addItem('Tekken 8', '06-28-2024', 'Fighting Game');
-
             const index = 1;
             let game = list.removeItem(index);
 
@@ -112,10 +110,6 @@ describe("List class", function () {
         });
 
         it('should adjust the index property of every item that comes after', function () {
-            list.addItem('Controller', '10-25-2025', 'For the PS5');
-            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-            list.addItem('Tekken 8', '06-28-2024', 'Fighting Game');
-
             let index = 0;
             list.removeItem(index);
 
@@ -132,12 +126,14 @@ describe("List class", function () {
         // We are doing bubble sort with the index next to use.
         // Make sure your test reflect that.
 
+        beforeEach(function () {
+            list.addItem('Controller', '10-25-2025', 'For the PS5');
+            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+        });
+
         context('When we have a valid swap', function () {
 
             it('should swap the two indices in place', function () {
-                list.addItem('Controller', '10-25-2025', 'For the PS5');
-                list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-
                 list.swap(0, 1);
 
                 expect(list.items[0].title).to.equal('Elden Ring');
@@ -145,9 +141,6 @@ describe("List class", function () {
             });
 
             it('should swap the indices of the two items', function () {
-                list.addItem('Controller', '10-25-2025', 'For the PS5');
-                list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-
                 list.swap(0, 1);
 
                 expect(list.items[0].title).to.equal('Elden Ring');
@@ -162,9 +155,6 @@ describe("List class", function () {
         context('When we do not have a valid swap', function () {
 
             it('should not swap the two items', function () {
-                list.addItem('Controller', '10-25-2025', 'For the PS5');
-                list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-
                 list.swap(0, 7);
 
                 expect(list.items[0].title).to.equal('Controller');
@@ -187,11 +177,14 @@ describe("List class", function () {
             // It will call swap and iterate and swap through adjacent items.
             // Make sure the methods reflect that!!!
 
-        it('should swap call List.swap', function () {
+        beforeEach(function () {
             list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
             list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
+        });
 
+        it('should swap call List.swap', function () {
             const spyUp = chai.spy.on(list, 'swap');
             list.up(0, 2);
 
@@ -200,11 +193,6 @@ describe("List class", function () {
         });
 
         it('should switch the switch the two elements (Item instances) in items', function () {
-            list.addItem('Controller', '10-25-2025', 'For the PS5');
-            list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-            list.addItem('Console', '04-12-2026', 'PS5 Console');
-            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
-
             list.up(0, 2);
 
             expect(list.items[0].title).to.equal('Controller');
