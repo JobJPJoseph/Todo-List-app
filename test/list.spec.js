@@ -129,25 +129,52 @@ describe("List class", function () {
         beforeEach(function () {
             list.addItem('Controller', '10-25-2025', 'For the PS5');
             list.addItem('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
+            list.addItem('Console', '04-12-2026', 'PS5 Console');
+            list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
         });
 
         context('When we have a valid swap', function () {
 
-            it('should swap the two indices in place', function () {
-                list.swap(0, 1);
+            context('When the List.up calls this', function () {
 
-                expect(list.items[0].title).to.equal('Elden Ring');
-                expect(list.items[1].title).to.equal('Controller');
+                it('should swap the two indices in place', function () {
+                    list.swap(2, 1); // (refernce, direction)
+
+                    expect(list.items[1].title).to.equal('Console');
+                    expect(list.items[2].title).to.equal('Elden Ring');
+                });
+
+                it('should swap the indices of the two items', function () {
+                    list.swap(2, 1);
+
+                    expect(list.items[1].title).to.equal('Console');
+                    expect(list.items[2].title).to.equal('Elden Ring');
+
+                    expect(list.items[1].index).to.equal(1);
+                    expect(list.items[2].index).to.equal(2);
+                });
+
             });
 
-            it('should swap the indices of the two items', function () {
-                list.swap(0, 1);
+            context('When List.down calls this', function () {
 
-                expect(list.items[0].title).to.equal('Elden Ring');
-                expect(list.items[0].index).to.equal(0);
+                it('should swap the two indices in place', function () {
+                    list.swap(2, -1);
 
-                expect(list.items[1].title).to.equal('Controller');
-                expect(list.items[1].index).to.equal(1);
+                    expect(list.items[3].title).to.equal('Console');
+                    expect(list.items[2].title).to.equal('Tekken 8');
+                });
+
+                it('should swap the indices of the two items', function () {
+                    list.swap(2, -1);
+
+                    expect(list.items[3].title).to.equal('Console');
+                    expect(list.items[3].index).to.equal(3);
+
+                    expect(list.items[2].title).to.equal('Tekken 8');
+                    expect(list.items[2].index).to.equal(2);
+                });
+
             });
 
         });
