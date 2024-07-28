@@ -358,9 +358,9 @@ describe("List class", function () {
         });
 
         it('should dequeue from a linked list and return the item', function () {
-            let item = list.removeNode().value;
+            let item = list.removeNode(); // as a node not item instance.
 
-            expect(item.label).to.equal('Eldin Ring');
+            expect(item.title).to.equal('Elden Ring');
             expect(item.index).to.equal(1);
         });
 
