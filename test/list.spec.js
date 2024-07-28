@@ -296,10 +296,10 @@ describe("List class", function () {
             chai.spy.restore(list, 'toggleItem');
         });
 
-        it('should call item.toggle on the first index of items', function () {
+        it('should toggle the referenced item', function () {
             list.toggleItem(0);
 
-            expect(list.items[0].mark).to.equal(`[${String.fromCharCode(10003)}]`);
+            expect(list.items[0].done).to.be.true;
         });
 
     });
