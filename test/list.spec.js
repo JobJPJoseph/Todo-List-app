@@ -211,7 +211,7 @@ describe("List class", function () {
             list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
         });
 
-        it('should swap call List.swap', function () {
+        it('should call List.swap', function () {
             const spyUp = chai.spy.on(list, 'swap');
             list.up(0, 2);
 
@@ -256,19 +256,19 @@ describe("List class", function () {
 
         it('should swap call List.swap', function () {
             const spyUp = chai.spy.on(list, 'swap');
-            list.up(0, 2);
+            list.down(0, 2);
 
             expect(spyUp).to.have.been.called;
             chai.spy.restore(list, 'swap');
         });
 
         it('should switch the switch the two elements (Item instances) in items', function () {
-            list.up(3, 2);
+            list.down(3, 2);
 
             expect(list.items[3].title).to.equal('Tekken 8');
             expect(list.items[3].index).to.equal(3);
 
-            list.up(0, 2);
+            list.down(0, 2);
 
             expect(list.items[2].title).to.equal('Controller');
             expect(list.items[2].index).to.equal(2);
