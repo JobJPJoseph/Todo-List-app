@@ -306,9 +306,6 @@ describe("List class", function () {
 
     describe('purgeItem', function () {
 
-        const controller = new Item('Controller', '10-25-2025', 'For the PS5');
-        const videoGame = new Item('Elden Ring', '06-22-2024', 'Shadow of the Erdtree');
-
         // This is a linked list
         // The method should refer to list.purges
         // To create a node, refer to PurgeNode
@@ -321,13 +318,13 @@ describe("List class", function () {
             list.addItem('Tekken 8', '01-20-6230', 'Fighting Game');
         });
 
-        context('When items is empty', function () {
+        // context('When items is empty', function () {
 
-            it(`should print 'There are no items in this list.label'`, function () {
+        //     it(`should print 'There are no items in this list.label'`, function () {
 
-            });
+        //     });
 
-        });
+        // });
 
         context('When items is not empty', function () {
 
@@ -342,7 +339,7 @@ describe("List class", function () {
                 */
 
                 expect(list.purges.length).to.equal(1);
-                expect(list.purges.head.value.title).to('Elden Ring');
+                expect(list.purges.head.value.title).to.equal('Elden Ring');
                 expect(list.length).to.equal(3);
             });
 
