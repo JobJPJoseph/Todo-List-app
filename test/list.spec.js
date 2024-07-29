@@ -391,17 +391,17 @@ describe("List class", function () {
         it('should add the removed node back into its original position in items', function () {
             list.undo();
 
-            expect(list.items[1].label).to.equal('Elden Ring');
+            expect(list.items[1].title).to.equal('Elden Ring');
             expect(list.items[1].index).to.equal(1);
         });
 
         it('should update the indices of the items that comes after the recently added item', function () {
             list.undo();
 
-            expect(list.items[3].label).to.equal('Tekken 8');
+            expect(list.items[3].title).to.equal('Tekken 8');
             expect(list.items[3].index).to.equal(3);
 
-            expect(list.items[2].label).to.equal('Console');
+            expect(list.items[2].title).to.equal('Console');
             expect(list.items[2].index).to.equal(2);
         });
 
