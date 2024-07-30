@@ -421,8 +421,8 @@ describe("List class", function () {
         it('should remove all mark task and add them to purges', function () {
             list.removeMarkTasks();
 
-            expect(list.purges.tail.value.title).to.equal('Elden Ring');
-            expect(list.purges.head.value.title).to.equal('Tekken 8');
+            expect(list.purges.head.value.title).to.equal('Elden Ring');
+            expect(list.purges.tail.value.title).to.equal('Tekken 8');
         });
 
         it('should update the indices from removing all the mark task', function () {
