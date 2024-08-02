@@ -465,7 +465,7 @@ describe("List class", function () {
 
         context('descending order', function () {
 
-            it('should sort and muntate items based on earliest ', function () {
+            it('should sort and muntate items based on latest ', function () {
                 let input = 'decsending';
                 list.sortByDeadline(input) // There will be a defualt function
 
