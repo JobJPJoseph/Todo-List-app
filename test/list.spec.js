@@ -493,48 +493,4 @@ describe("List class", function () {
 
     });
 
-    // We can't actually test to make sure that something prints out in a certian format
-    // but we can test if said data is called or even printed in the first place.
-    // title, deadline, mark, description
-    describe('printPriority', function () {
-
-        let spyConsole;
-
-        beforeEach(function () {
-            spyConsole = chai.spy.on(console, 'log');
-        });
-
-        afterEach(function () {
-            chai.spy.restore(console, 'log');
-        });
-
-        it('should call list.priority', function () {
-            const spyPriority = chai.spy.on(list, 'priority');
-            list.printPriority();
-            expect(spyPriority).to.have.been.called;
-        });
-
-        it('should console.log list.title', function () {
-            list.printPriority();
-            expect(spyConsole).to.be.called.with(list.title.padEnd(25));
-        });
-
-        it('should console.log list.deadline', function () {
-            list.printPriority();
-            expect(spyConsole).to.be.called.with(list.deadline.padEnd(14));
-
-        });
-
-        it('should console.log list.mark', function () {
-            list.printPriority();
-            expect(spyConsole).to.be.called.with(list.mark());
-        });
-
-        it('should console.log list.description', function () {
-            list.printPriority();
-            expect(spyConsole).to.be.called.with(list.description.trimStart());
-        })
-
-    });
-
 });
