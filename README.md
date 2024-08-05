@@ -4,15 +4,17 @@
     Inheritance:
     Binding (context):
     Destructuring:
-    Asychronousity (Promises/asyce-await):
+    Asychronousity (Promises/asyce-await): Done
     NPM Packages (Mocha/Chai): Done
-    Class instances:
-    Single Responsibiity Principle:
+    Class instances: Done
+    Single Responsibiity Principle: Done
     Custom Errors:
-    Handling Errors:
-    Linked Lists:
-    Stacks and Queues:
-    More NPM Packages:
+    Handling Errors: Done
+    Linked Lists: Done
+    Cache: Done
+    Stacks and Queues: Done
+    More NPM Packages: Done
+
 
 ### Item
     Constructor

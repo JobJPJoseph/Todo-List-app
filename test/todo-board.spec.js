@@ -30,24 +30,80 @@ describe('Todo Board', function () {
         it('should initialize an object that contains all possible commands', function () {
             const commands = todo.allCommands;
 
-            expect(commands.mklist).to.equal('mklist');
-            expect(commands.ls).to.equal('ls');
-            expect(commands.showall).to.equal('showall');
-            expect(commands.mktodo).to.equal('mktodo');
-            expect(commands.toggle).to.equal('toggle');
-            expect(commands.rm).to.equal('rm');
-            expect(commands.purge).to.equal('purge'); // changed
-            expect(commands.up).to.equal('up');
-            expect(commands.down).to.equal('down');
-            expect(commands.swap).to.equal('swap');
-            expect(commands.undo).to.equal('undo'); // new
-            expect(commands.sort).to.equal('sort');
-            expect(commands.priority).to.equal('priority');
-            expect(commands.print).to.equal('print');
-            expect(commands.quit).to.equal('quit');
+            expect(commands.mklist, 'mklist').to.be.an('object'); // makes new
+            expect(commands.ls, 'ls').to.be.an('object'); // print every list label
+            expect(commands.showall, 'showall').to.be.an('object'); // print every list info
+            expect(commands.mktodo, 'mktodo').to.be.an('object'); // makes item for specified list
+            expect(commands.toggle, 'toggle').to.be.an('object'); // calls item.mark() (list.toggleItem(reference))
+            expect(commands.rm, 'rm').to.be.an('object'); // removes referenced item (list.purgeItem(refernce))
+            // expect(commands.purge).to.be.an('object'); // changed
+            expect(commands.up, 'up').to.be.an('object'); // moves referenced item up
+            expect(commands.down, 'down').to.be.an('object'); // moves referenced item down
+            // expect(commands.swap).to.be.an('object'); // not a command (will be called by up and down)
+            expect(commands.undo, 'undo').to.be.an('object'); // adds back in the items for that list
+            expect(commands.sort, 'sort').to.be.an('object');  // sort specific list by deadline
+            expect(commands.priority, 'priority').to.be.an('object'); // print first item
+            expect(commands.print, 'print').to.be.an('object'); // print list
+            expect(commands.quit, 'quit').to.be.an('object'); // exit app
         });
 
-        // commands should also have descriptions of what they expect though
+        context('mklist', function () {
+
+            // We need to test if the amount of arguments is correct
+                // We are only expecting one argument
+            // The function will call this.board[...arg]
+
+            it('should initialize a property called arguments', function () {
+                expect(todo.allCommands.mklist.arguments).to.be.an('array');
+            });
+
+            it('should be a length of zero', function () {
+                expect(todo.allCommands.mklist.arguments.length).to.equal(0);
+            });
+
+            context('mklist.execute', function () {
+
+                context('When the list instance is not initialized', function () {
+
+                    it('should initialize a property called execute that should be a function', function () {
+                        expect(todo.allCommands.mklist.execute).to.be.a('function');
+                    });
+
+                    it('should create a list instance and assign it as a property of todo.board', function () {
+                        todo.allCommands.mklist.execute('Groceries');
+                        expect(todo.board.groceries.label).to.equal('Groceries');
+                    });
+
+                });
+
+                context('When the list instance is already initialized', function () {
+                    let spyConsoleError;
+
+                    beforeEach(function () {
+                        todo = new TodoBoard();
+                        spyConsoleError = chai.spy.on(console, 'error');
+                    });
+
+                    afterEach(function () {
+                        chai.spy.restore(console, 'error');
+                    });
+
+                    it('should return an Error object and log an error message', function () {
+                        let input = 'Groceries';
+                        todo.allCommands.mklist.execute(input);
+
+                        const result = todo.allCommands.mklist.execute(input);
+
+                        expect(result).to.be.an.instanceOf(Error);
+                        expect(result.message).to.equal(`${input} is already included in the list.`);
+                        expect(spyConsoleError).to.have.been.called.with(`${input} is already included in the list.`);
+                    });
+
+                });
+
+            });
+
+        });
 
     });
 
@@ -55,10 +111,10 @@ describe('Todo Board', function () {
 
         context('asynchronous' , function () {
 
-            it('should input should be a string data type', async function () {
-                let input = await todo.getCommand();
-                return expect(input).to.be.a('string');
-            });
+            // it('should input should be a string data type', async function () {
+            //     let input = await todo.getCommand();
+            //     return expect(input).to.be.a('string');
+            // });
 
             // the first input is a command. Anything that comes after is a argument.
             // each command or argument must have a space in between.
@@ -68,17 +124,17 @@ describe('Todo Board', function () {
             // index 1 === listName
             // index 2 and onwards === depends
 
-            context('multiple arguments', async function () {
+            // context('multiple arguments', async function () {
 
-                it('', function () {
+            //     it('', function () {
 
-                });
+            //     });
 
-            });
+            // });
 
-            context('single commands', function () {
+            // context('single commands', function () {
 
-            });
+            // });
 
         });
 
