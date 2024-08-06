@@ -63,6 +63,28 @@ describe('Todo Board', function () {
 
             context('mklist.execute', function () {
 
+                context('When amount of arguments is not equal to one', function () {
+                    let spyConsoleError;
+
+                    beforeEach(function () {
+                        spyConsoleError = chai.spy.on(console, 'error');
+                    });
+
+                    afterEach(function () {
+                        chai.spy.restore(console, 'error');
+                    });
+
+                    it('should return an Error object and log an error message', function () {
+                        let result = todo.allCommands.mklist.execute('Groceries', 'lets', ' go', 'up');
+
+                        expect(result).to.be.an.instanceOf(Error);
+                        expect(result.message).to.equal(`Too many arguments`);
+                        expect(spyConsoleError).to.have.been.called.with(`Too many arguments`);
+                    });
+
+                });
+
+
                 context('When the list instance is not initialized', function () {
 
                     it('should initialize a property called execute that should be a function', function () {
