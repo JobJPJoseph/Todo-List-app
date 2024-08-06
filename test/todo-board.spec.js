@@ -128,10 +128,10 @@ describe('Todo Board', function () {
         });
 
         context('ls', function () {
-            let spyConsoleError;
+            let spyConsole;
 
             beforeEach(function () {
-                spyConsoleError = chai.spy.on(console, 'log');
+                spyConsole = chai.spy.on(console, 'log');
             });
 
             afterEach(function () {
@@ -141,7 +141,28 @@ describe('Todo Board', function () {
             it('should console.log this.board keys', function () {
                 todo.allCommands.mklist.execute('Groceries');
                 todo.allCommands.ls.execute();
-                expect(spyConsoleError).to.have.been.called.with(['groceries']);
+                expect(spyConsole).to.have.been.called.with(['groceries']);
+            });
+
+        });
+
+        context('showall', function () {
+            let spyConsole;
+
+            beforeEach(function () {
+                todo.allCommands.mklist.execute('Groceries');
+                todo.board['groceries'].addItem('burger', '01-22-2025', 'For the Party');
+
+                spyConsole = chai.spy.on(console, 'log');
+            });
+
+            afterEach(function () {
+                chai.spy.restore(console, 'log');
+            });
+
+            it('should console.log Object.values(this.board)', function () {
+                todo.allCommands.showall.execute();
+                expect(spyConsole).to.have.been.called.with(todo.board['groceries'].printBoard());
             });
 
         });
