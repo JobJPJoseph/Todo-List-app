@@ -127,50 +127,67 @@ describe('Todo Board', function () {
 
         });
 
-    });
+        context('ls', function () {
+            let spyConsoleError;
 
-    describe('getCommand', function () {
+            beforeEach(function () {
+                spyConsoleError = chai.spy.on(console, 'log');
+            });
 
-        context('asynchronous' , function () {
+            afterEach(function () {
+                chai.spy.restore(console, 'log');
+            });
 
-            // it('should input should be a string data type', async function () {
-            //     let input = await todo.getCommand();
-            //     return expect(input).to.be.a('string');
-            // });
-
-            // the first input is a command. Anything that comes after is a argument.
-            // each command or argument must have a space in between.
-
-            // 'command listName arg arg arg....'
-            // index 0 === is the command
-            // index 1 === listName
-            // index 2 and onwards === depends
-
-            // context('multiple arguments', async function () {
-
-            //     it('', function () {
-
-            //     });
-
-            // });
-
-            // context('single commands', function () {
-
-            // });
+            it('should console.log this.board keys', function () {
+                todo.allCommands.mklist.execute('Groceries');
+                todo.allCommands.ls.execute();
+                expect(spyConsoleError).to.have.been.called.with(['groceries']);
+            });
 
         });
 
-        // lets make sure to get the command in the right format
-        // context('isCorrectFormat', function () {
-
-        //     it('', function () {
-
-        //     });
-
-        // });
-
     });
 
+    // describe('getCommand', function () {
 
+    //     context('asynchronous' , function () {
+
+    //         // it('should input should be a string data type', async function () {
+    //         //     let input = await todo.getCommand();
+    //         //     return expect(input).to.be.a('string');
+    //         // });
+
+    //         // the first input is a command. Anything that comes after is a argument.
+    //         // each command or argument must have a space in between.
+
+    //         // 'command listName arg arg arg....'
+    //         // index 0 === is the command
+    //         // index 1 === listName
+    //         // index 2 and onwards === depends
+
+    //         // context('multiple arguments', async function () {
+
+    //         //     it('', function () {
+
+    //         //     });
+
+    //         // });
+
+    //         // context('single commands', function () {
+
+    //         // });
+
+    //     });
+
+    //     // lets make sure to get the command in the right format
+    //     // context('isCorrectFormat', function () {
+
+    //     //     it('', function () {
+
+    //     //     });
+
+    //     // });
+
+    // });
 
 });
