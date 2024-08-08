@@ -147,22 +147,88 @@ describe('Todo Board', function () {
         });
 
         context('showall', function () {
-            let spyConsole;
 
-            beforeEach(function () {
-                todo.allCommands.mklist.execute('Groceries');
-                todo.board['groceries'].addItem('burger', '01-22-2025', 'For the Party');
+            context('When no arguments', function () {
+                let spyConsole;
 
-                spyConsole = chai.spy.on(console, 'log');
+                beforeEach(function () {
+                    todo.allCommands.mklist.execute('Groceries');
+                    todo.board['groceries'].addItem('burger', '01-22-2025', 'For the Party');
+
+                    spyConsole = chai.spy.on(console, 'log');
+                });
+
+                afterEach(function () {
+                    chai.spy.restore(console, 'log');
+                });
+
+                it('should console.log Object.values(this.board)', function () {
+                    todo.allCommands.showall.execute();
+                    expect(spyConsole).to.have.been.called;
+                });
+
             });
 
-            afterEach(function () {
-                chai.spy.restore(console, 'log');
+            context('When there are arguments', function () {
+                let spyConsoleError;
+
+                beforeEach(function () {
+                    spyConsoleError = chai.spy.on(console, 'error');
+                });
+
+                afterEach(function () {
+                    chai.spy.restore(console, 'error');
+                });
+
+                it('should return an Error instance and console an Error message', function () {
+                    todo.allCommands.mklist.execute('Groceries');
+                    let result = todo.allCommands.showall.execute('Groceries');
+
+                    expect(result).to.be.an.instanceOf(Error);
+                    expect(result.message).to.equal(`No arguments needed`);
+                    expect(spyConsoleError).to.have.been.called
+                });
+
             });
 
-            it('should console.log Object.values(this.board)', function () {
-                todo.allCommands.showall.execute();
-                expect(spyConsole).to.have.been.called.with(todo.board['groceries'].printBoard());
+        });
+
+        context('mktodo', function () {
+
+            context('When no argument is received or too many', function () {
+                let spyConsoleError;
+
+                beforeEach(function () {
+                    spyConsoleError = chai.spy.on(console, 'log');
+                });
+
+                afterEach(function () {
+                    chai.spy.restore(console, 'log');
+                });
+
+                it('should return an Error instance and console an error message', function () {
+                    // Just say incorrect amount of arguments
+                    // i === 4
+
+                    todo.allCommands.mklist.execute('Books');
+                    let result = todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction', 'At Thursday');
+
+                    expect(result).to.be.an.instanceOf(Error);
+                    expect(result.message).to.equal('Incorrect amount of arguments');
+                    expect(spyConsoleError).to.have.been.called;
+                });
+
+            });
+
+            context('When arguments are recieved', function () {
+
+                it('should add an item instance into a list', function () {
+                    todo.allCommands.mklist.execute('Groceries');
+                    todo.allCommands.mktodo.execute('Groceries', 'potatoes', '10-20-2010', 'For cooking');
+
+                    expect(todo.board['groceries'].items[0].title).to.equal('potatoes');
+                });
+
             });
 
         });
