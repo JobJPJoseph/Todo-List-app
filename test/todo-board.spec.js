@@ -47,7 +47,7 @@ describe('Todo Board', function () {
             expect(commands.quit, 'quit').to.be.an('object'); // exit app
         });
 
-        context('mklist', function () {
+        describe('mklist', function () {
 
             // We need to test if the amount of arguments is correct
                 // We are only expecting one argument
@@ -127,7 +127,7 @@ describe('Todo Board', function () {
 
         });
 
-        context('ls', function () {
+        describe('ls', function () {
             let spyConsole;
 
             beforeEach(function () {
@@ -146,7 +146,7 @@ describe('Todo Board', function () {
 
         });
 
-        context('showall', function () {
+        describe('showall', function () {
 
             context('When no arguments', function () {
                 let spyConsole;
@@ -193,7 +193,7 @@ describe('Todo Board', function () {
 
         });
 
-        context('mktodo', function () {
+        describe('mktodo', function () {
 
             context('When no argument is received or too many', function () {
                 let spyConsoleError;
@@ -233,7 +233,7 @@ describe('Todo Board', function () {
 
         });
 
-        context('toggle', function () {
+        describe('toggle', function () {
 
             context('When no argument is received or too many', function () {
                 let spyConsoleError;
@@ -266,6 +266,46 @@ describe('Todo Board', function () {
                     todo.allCommands.toggle.execute('Books', 'Bleach');
 
                     expect(todo.board['books'].items[0].done).to.be.true;
+                });
+
+            });
+
+        });
+
+        describe('rm', function () {
+
+            context('When no argument is received or too many', function () {
+                let spyConsoleError;
+
+                beforeEach(function () {
+                    spyConsoleError = chai.spy.on(console, 'log');
+                });
+
+                afterEach(function () {
+                    chai.spy.restore(console, 'log');
+                });
+
+                it('should return an Error instance and console an error message', function () {
+                    todo.allCommands.mklist.execute('Books');
+                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+                    let result = todo.allCommands.rm.execute('Books', 0, 58);
+
+                    expect(result).to.be.an.instanceOf(Error);
+                    expect(result.message).to.equal('Incorrect amount of arguments');
+                    expect(spyConsoleError).to.have.been.called;
+                });
+
+            });
+
+            context('When we have the correct amount of arguments', function () {
+
+                it('should remove item from specified list', function () {
+                    todo.allCommands.mklist.execute('Books');
+                    todo.allCommands.mktodo.execute('Books', 'Bleach', '12-20-2024', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books', 'Burn the Witch', '10-20-2024', 'non-Fiction');
+                    todo.allCommands.rm.execute('Books', 0);
+
+                    expect(todo.board['books'].items[0].title).to.equal('Burn the Witch');
                 });
 
             });
