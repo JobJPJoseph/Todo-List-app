@@ -233,6 +233,45 @@ describe('Todo Board', function () {
 
         });
 
+        context('toggle', function () {
+
+            context('When no argument is received or too many', function () {
+                let spyConsoleError;
+
+                beforeEach(function () {
+                    spyConsoleError = chai.spy.on(console, 'log');
+                });
+
+                afterEach(function () {
+                    chai.spy.restore(console, 'log');
+                });
+
+                it('should return an Error instance and console an error message', function () {
+                    todo.allCommands.mklist.execute('Books');
+                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+                    let result = todo.allCommands.toggle.execute('Books', 'Bleach', 'dsfsars');
+
+                    expect(result).to.be.an.instanceOf(Error);
+                    expect(result.message).to.equal('Incorrect amount of arguments');
+                    expect(spyConsoleError).to.have.been.called;
+                });
+
+            });
+
+            context('When we have the correct amount of arguments', function () {
+
+                it('should switch item done property to true', function () {
+                    todo.allCommands.mklist.execute('Books');
+                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+                    todo.allCommands.toggle.execute('Books', 'Bleach');
+
+                    expect(todo.board['books'].items[0].done).to.be.true;
+                });
+
+            });
+
+        });
+
     });
 
     // describe('getCommand', function () {
