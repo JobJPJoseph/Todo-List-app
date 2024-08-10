@@ -312,6 +312,88 @@ describe('Todo Board', function () {
 
         });
 
+        describe('up', function () {
+
+            context('When we have an incorrect amount of arguments', function () {
+                let spyConsoleError;
+
+                beforeEach(function () {
+                    spyConsoleError = chai.spy.on(console, 'log');
+                });
+
+                afterEach(function () {
+                    chai.spy.restore(console, 'log');
+                });
+
+                it('should return an Error instance and console an error message', function () {
+                    todo.allCommands.mklist.execute('Books');
+                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+                    let result = todo.allCommands.up.execute('books', 1, 1, 'going up');
+
+                    expect(result).to.be.an.instanceOf(Error);
+                    expect(result.message).to.equal('Incorrect amount of arguments');
+                    expect(spyConsoleError).to.have.been.called;
+                });
+
+            });
+
+            context('When we have a correct number of arguments', function () {
+
+                it('should move the reference', function () {
+                    todo.allCommands.mklist.execute('Books');
+                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+                    todo.allCommands.up.execute('books', 1, 1);
+
+                    expect(todo.board['books'].items[0].title).to.equal('Burn the Witch');
+                });
+
+            });
+
+        });
+
+        describe('down', function () {
+
+            context('When we have an incorrect amount of arguments', function () {
+                let spyConsoleError;
+
+                beforeEach(function () {
+                    spyConsoleError = chai.spy.on(console, 'log');
+                });
+
+                afterEach(function () {
+                    chai.spy.restore(console, 'log');
+                });
+
+                it('should return an Error instance and console an error message', function () {
+                    todo.allCommands.mklist.execute('Books');
+                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+                    let result = todo.allCommands.up.execute('books', 1, 1, 'going down');
+
+                    expect(result).to.be.an.instanceOf(Error);
+                    expect(result.message).to.equal('Incorrect amount of arguments');
+                    expect(spyConsoleError).to.have.been.called;
+                });
+
+            });
+
+            context('When we have a correct number of arguments', function () {
+
+                it('should move the reference', function () {
+                    todo.allCommands.mklist.execute('Books');
+                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+                    todo.allCommands.down.execute('books', 0, 1);
+
+                    expect(todo.board['books'].items[1].title).to.equal('Bleach');
+                });
+
+            });
+
+        });
+
     });
 
     // describe('getCommand', function () {
