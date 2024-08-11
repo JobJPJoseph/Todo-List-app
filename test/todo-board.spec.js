@@ -488,6 +488,59 @@ describe('Todo Board', function () {
             });
         });
 
+        describe('priority', function () {
+
+            context('When we have an incorrect amount of arguments', function () {
+                let spyConsoleError;
+
+                beforeEach(function () {
+                    spyConsoleError = chai.spy.on(console, 'log');
+                });
+
+                afterEach(function () {
+                    chai.spy.restore(console, 'log');
+                });
+
+                it('should return an Error instance and console an error message', function () {
+                    todo.allCommands.mklist.execute('Books');
+                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
+                    let result = todo.allCommands.priority.execute('books', 'a');
+
+                    expect(result).to.be.an.instanceOf(Error);
+                    expect(result.message).to.equal('Expecting List Name');
+                    expect(spyConsoleError).to.have.been.called;
+                });
+
+            });
+
+            context('When we have a correct amount of arguments', function () {
+                let spyPriority;
+
+                beforeEach(function () {
+                    todo.allCommands.mklist.execute('Books');
+                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
+
+                    spyPriority = chai.spy.on(todo.board['books'], 'printPriority');
+                });
+
+                afterEach(function () {
+                    chai.spy.restore(todo.board['books'], 'priority');
+                });
+
+                it('should call the specified list.priority', function () {
+                    todo.allCommands.priority.execute('books');
+
+                    expect(spyPriority).to.have.been.called;
+                });
+
+            });
+
+        });
+
     });
 
     // describe('getCommand', function () {
