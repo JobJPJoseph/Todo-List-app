@@ -394,6 +394,56 @@ describe('Todo Board', function () {
 
         });
 
+        describe('undo', function () {
+
+            context('When we have an incorrect amount of argument', function () {
+                let spyConsoleError;
+
+                beforeEach(function () {
+                    spyConsoleError = chai.spy.on(console, 'log');
+                });
+
+                afterEach(function () {
+                    chai.spy.restore(console, 'log');
+                });
+
+                it('should return an Error instance and console an error message', function () {
+                    todo.allCommands.mklist.execute('Books');
+                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
+                    todo.allCommands.rm.execute('books', 1);
+                    todo.allCommands.rm.execute('books', 0);
+                    let result = todo.allCommands.undo.execute('books', 2);
+
+                    expect(result).to.be.an.instanceOf(Error);
+                    expect(result.message).to.equal('Expecting List Name');
+                    expect(spyConsoleError).to.have.been.called;
+                });
+
+            });
+
+            context('When we have the correct amount of argument', function () {
+
+                it('should return the removed items back into there original positions in list.items', function () {
+                    todo.allCommands.mklist.execute('Books');
+                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+                    todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
+                    todo.allCommands.rm.execute('books', 1);
+                    todo.allCommands.rm.execute('books', 0);
+                    todo.allCommands.undo.execute('books');
+
+
+
+                   expect(todo.board['books'].items[0].title).to.equal('Bleach');
+                   expect(todo.board['books'].items[1].title).to.equal('Re-zero');
+                });
+
+            });
+
+        });
+
     });
 
     // describe('getCommand', function () {
