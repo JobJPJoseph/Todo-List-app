@@ -43,7 +43,8 @@ describe('Todo Board', function () {
             expect(commands.undo, 'undo').to.be.an('object'); // adds back in the items for that list
             expect(commands.sort, 'sort').to.be.an('object');  // sort specific list by deadline
             expect(commands.priority, 'priority').to.be.an('object'); // print first item
-            expect(commands.print, 'print').to.be.an('object'); // print list
+            expect(commands.printItem, 'printItem').to.be.an('object') // print specified item at reference
+            expect(commands.print, 'print').to.be.an('object'); // print all lists
             expect(commands.quit, 'quit').to.be.an('object'); // exit app
         });
 
@@ -538,6 +539,18 @@ describe('Todo Board', function () {
                 });
 
             });
+
+        });
+
+        describe('printItem', function () {
+
+        });
+
+        describe('print', function () {
+
+        });
+
+        describe('quit', function () {
 
         });
 
