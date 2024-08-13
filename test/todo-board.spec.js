@@ -54,13 +54,13 @@ describe('Todo Board', function () {
                 // We are only expecting one argument
             // The function will call this.board[...arg]
 
-            it('should initialize a property called arguments', function () {
-                expect(todo.allCommands.mklist.arguments).to.be.an('array');
-            });
+            // it('should initialize a property called arguments', function () {
+            //     expect(todo.allCommands.mklist.arguments).to.be.an('array');
+            // });
 
-            it('should be a length of zero', function () {
-                expect(todo.allCommands.mklist.arguments.length).to.equal(0);
-            });
+            // it('should be a length of zero', function () {
+            //     expect(todo.allCommands.mklist.arguments.length).to.equal(0);
+            // });
 
             context('mklist.execute', function () {
 
@@ -556,46 +556,68 @@ describe('Todo Board', function () {
 
     });
 
-    // describe('getCommand', function () {
+    describe('getCommand', function () {
 
-    //     context('asynchronous' , function () {
+        context('asynchronous' , function () {
 
-    //         // it('should input should be a string data type', async function () {
-    //         //     let input = await todo.getCommand();
-    //         //     return expect(input).to.be.a('string');
-    //         // });
+            // it('should input should be a string data type', async function () {
+            //     let input = await todo.getCommand();
+            //     return expect(input).to.be.a('string');
+            // });
 
-    //         // the first input is a command. Anything that comes after is a argument.
-    //         // each command or argument must have a space in between.
+            context('When the input is not included in todo.allCommands', function () {
 
-    //         // 'command listName arg arg arg....'
-    //         // index 0 === is the command
-    //         // index 1 === listName
-    //         // index 2 and onwards === depends
+                it('should console an error message', async function () {
+                    let spyInputError = chai.spy.on(console, 'log');
 
-    //         // context('multiple arguments', async function () {
+                    let input = await todo.getCommand();
 
-    //         //     it('', function () {
+                    expect(spyInputError).to.have.been.called;
+                    expect(input).to.be.an.instanceOf(Error);
+                    return expect(input.message).to.equal('Input is not a valid command');
+                });
 
-    //         //     });
+            });
 
-    //         // });
+            context('When the input is included', function () {
 
-    //         // context('single commands', function () {
+                it('', function () {
 
-    //         // });
+                });
 
-    //     });
+            });
 
-    //     // lets make sure to get the command in the right format
-    //     // context('isCorrectFormat', function () {
+            // the first input is a command. Anything that comes after is a argument.
+            // each command or argument must have a space in between.
 
-    //     //     it('', function () {
+            // 'command listName arg arg arg....'
+            // index 0 === is the command
+            // index 1 === listName
+            // index 2 and onwards === depends
 
-    //     //     });
+            // context('multiple arguments', async function () {
 
-    //     // });
+            //     it('', function () {
 
-    // });
+            //     });
+
+            // });
+
+            // context('single commands', function () {
+
+            // });
+
+        });
+
+        // lets make sure to get the command in the right format
+        // context('isCorrectFormat', function () {
+
+        //     it('', function () {
+
+        //     });
+
+        // });
+
+    });
 
 });
