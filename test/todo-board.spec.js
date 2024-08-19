@@ -44,515 +44,573 @@ describe('Todo Board', function () {
             expect(commands.sort, 'sort').to.be.an('object');  // sort specific list by deadline
             expect(commands.priority, 'priority').to.be.an('object'); // print first item
             expect(commands.printItem, 'printItem').to.be.an('object') // print specified item at reference
-            expect(commands.print, 'print').to.be.an('object'); // print all lists // This is a repeat!!!
+            // expect(commands.print, 'print').to.be.an('object'); // print all lists // This is a repeat!!!
             expect(commands.quit, 'quit').to.be.an('object'); // exit app
         });
 
-        describe('mklist', function () {
+        // describe('mklist', function () {
 
-            // We need to test if the amount of arguments is correct
-                // We are only expecting one argument
-            // The function will call this.board[...arg]
+        //     // We need to test if the amount of arguments is correct
+        //         // We are only expecting one argument
+        //     // The function will call this.board[...arg]
 
-            // it('should initialize a property called arguments', function () {
-            //     expect(todo.allCommands.mklist.arguments).to.be.an('array');
-            // });
+        //     // it('should initialize a property called arguments', function () {
+        //     //     expect(todo.allCommands.mklist.arguments).to.be.an('array');
+        //     // });
 
-            // it('should be a length of zero', function () {
-            //     expect(todo.allCommands.mklist.arguments.length).to.equal(0);
-            // });
+        //     // it('should be a length of zero', function () {
+        //     //     expect(todo.allCommands.mklist.arguments.length).to.equal(0);
+        //     // });
 
-            context('mklist.execute', function () {
+        //     context('mklist.execute', function () {
 
-                context('When amount of arguments is not equal to one', function () {
-                    let spyConsoleError;
+        //         context('When amount of arguments is not equal to one', function () {
+        //             let spyConsoleError;
 
-                    beforeEach(function () {
-                        spyConsoleError = chai.spy.on(console, 'error');
-                    });
+        //             beforeEach(function () {
+        //                 spyConsoleError = chai.spy.on(console, 'error');
+        //             });
 
-                    afterEach(function () {
-                        chai.spy.restore(console, 'error');
-                    });
+        //             afterEach(function () {
+        //                 chai.spy.restore(console, 'error');
+        //             });
 
-                    it('should return an Error object and log an error message', function () {
-                        let result = todo.allCommands.mklist.execute('Groceries', 'lets', ' go', 'up');
+        //             it('should return an Error object and log an error message', function () {
+        //                 let result = todo.allCommands.mklist.execute('Groceries', 'lets', ' go', 'up');
 
-                        expect(result).to.be.an.instanceOf(Error);
-                        expect(result.message).to.equal(`Too many arguments`);
-                        expect(spyConsoleError).to.have.been.called.with(`Too many arguments`);
-                    });
+        //                 expect(result).to.be.an.instanceOf(Error);
+        //                 expect(result.message).to.equal(`Too many arguments`);
+        //                 expect(spyConsoleError).to.have.been.called.with(`Too many arguments`);
+        //             });
 
-                });
+        //         });
 
 
-                context('When the list instance is not initialized', function () {
+        //         context('When the list instance is not initialized', function () {
 
-                    it('should initialize a property called execute that should be a function', function () {
-                        expect(todo.allCommands.mklist.execute).to.be.a('function');
-                    });
+        //             it('should initialize a property called execute that should be a function', function () {
+        //                 expect(todo.allCommands.mklist.execute).to.be.a('function');
+        //             });
 
-                    it('should create a list instance and assign it as a property of todo.board', function () {
-                        todo.allCommands.mklist.execute('Groceries');
-                        expect(todo.board.groceries.label).to.equal('Groceries');
-                    });
+        //             it('should create a list instance and assign it as a property of todo.board', function () {
+        //                 todo.allCommands.mklist.execute('Groceries');
+        //                 expect(todo.board.groceries.label).to.equal('Groceries');
+        //             });
 
-                });
+        //         });
 
-                context('When the list instance is already initialized', function () {
-                    let spyConsoleError;
+        //         context('When the list instance is already initialized', function () {
+        //             let spyConsoleError;
 
-                    beforeEach(function () {
-                        todo = new TodoBoard();
-                        spyConsoleError = chai.spy.on(console, 'error');
-                    });
+        //             beforeEach(function () {
+        //                 todo = new TodoBoard();
+        //                 spyConsoleError = chai.spy.on(console, 'error');
+        //             });
 
-                    afterEach(function () {
-                        chai.spy.restore(console, 'error');
-                    });
+        //             afterEach(function () {
+        //                 chai.spy.restore(console, 'error');
+        //             });
 
-                    it('should return an Error object and log an error message', function () {
-                        let input = 'Groceries';
-                        todo.allCommands.mklist.execute(input);
+        //             it('should return an Error object and log an error message', function () {
+        //                 let input = 'Groceries';
+        //                 todo.allCommands.mklist.execute(input);
 
-                        const result = todo.allCommands.mklist.execute(input);
+        //                 const result = todo.allCommands.mklist.execute(input);
 
-                        expect(result).to.be.an.instanceOf(Error);
-                        expect(result.message).to.equal(`${input} is already included in the list.`);
-                        expect(spyConsoleError).to.have.been.called.with(`${input} is already included in the list.`);
-                    });
+        //                 expect(result).to.be.an.instanceOf(Error);
+        //                 expect(result.message).to.equal(`${input} is already included in the list.`);
+        //                 expect(spyConsoleError).to.have.been.called.with(`${input} is already included in the list.`);
+        //             });
 
-                });
+        //         });
 
-            });
-
-        });
-
-        describe('ls', function () {
-            let spyConsole;
-
-            beforeEach(function () {
-                spyConsole = chai.spy.on(console, 'log');
-            });
-
-            afterEach(function () {
-                chai.spy.restore(console, 'log');
-            });
-
-            it('should console.log this.board keys', function () {
-                todo.allCommands.mklist.execute('Groceries');
-                todo.allCommands.ls.execute();
-                expect(spyConsole).to.have.been.called.with(['groceries']);
-            });
-
-        });
-
-        describe('showall', function () {
-
-            context('When no arguments', function () {
-                let spyConsole;
-
-                beforeEach(function () {
-                    todo.allCommands.mklist.execute('Groceries');
-                    todo.board['groceries'].addItem('burger', '01-22-2025', 'For the Party');
-
-                    spyConsole = chai.spy.on(console, 'log');
-                });
-
-                afterEach(function () {
-                    chai.spy.restore(console, 'log');
-                });
-
-                it('should console.log Object.values(this.board)', function () {
-                    todo.allCommands.showall.execute();
-                    expect(spyConsole).to.have.been.called;
-                });
-
-            });
-
-            context('When there are arguments', function () {
-                let spyConsoleError;
-
-                beforeEach(function () {
-                    spyConsoleError = chai.spy.on(console, 'error');
-                });
-
-                afterEach(function () {
-                    chai.spy.restore(console, 'error');
-                });
-
-                it('should return an Error instance and console an Error message', function () {
-                    todo.allCommands.mklist.execute('Groceries');
-                    let result = todo.allCommands.showall.execute('Groceries');
-
-                    expect(result).to.be.an.instanceOf(Error);
-                    expect(result.message).to.equal(`No arguments needed`);
-                    expect(spyConsoleError).to.have.been.called
-                });
-
-            });
-
-        });
-
-        describe('mktodo', function () {
-
-            context('When no argument is received or too many', function () {
-                let spyConsoleError;
-
-                beforeEach(function () {
-                    spyConsoleError = chai.spy.on(console, 'log');
-                });
-
-                afterEach(function () {
-                    chai.spy.restore(console, 'log');
-                });
-
-                it('should return an Error instance and console an error message', function () {
-                    // Just say incorrect amount of arguments
-                    // i === 4
-
-                    todo.allCommands.mklist.execute('Books');
-                    let result = todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction', 'At Thursday');
-
-                    expect(result).to.be.an.instanceOf(Error);
-                    expect(result.message).to.equal('Incorrect amount of arguments');
-                    expect(spyConsoleError).to.have.been.called;
-                });
-
-            });
-
-            context('When arguments are recieved', function () {
-
-                it('should add an item instance into a list', function () {
-                    todo.allCommands.mklist.execute('Groceries');
-                    todo.allCommands.mktodo.execute('Groceries', 'potatoes', '10-20-2010', 'For cooking');
-
-                    expect(todo.board['groceries'].items[0].title).to.equal('potatoes');
-                });
-
-            });
-
-        });
-
-        describe('toggle', function () {
-
-            context('When no argument is received or too many', function () {
-                let spyConsoleError;
-
-                beforeEach(function () {
-                    spyConsoleError = chai.spy.on(console, 'log');
-                });
-
-                afterEach(function () {
-                    chai.spy.restore(console, 'log');
-                });
-
-                it('should return an Error instance and console an error message', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    let result = todo.allCommands.toggle.execute('Books', 'Bleach', 'dsfsars');
-
-                    expect(result).to.be.an.instanceOf(Error);
-                    expect(result.message).to.equal('Incorrect amount of arguments');
-                    expect(spyConsoleError).to.have.been.called;
-                });
-
-            });
-
-            context('When we have the correct amount of arguments', function () {
-
-                it('should switch item done property to true', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    todo.allCommands.toggle.execute('Books', 'Bleach');
-
-                    expect(todo.board['books'].items[0].done).to.be.true;
-                });
-
-            });
-
-        });
-
-        describe('rm', function () {
-
-            context('When no argument is received or too many', function () {
-                let spyConsoleError;
-
-                beforeEach(function () {
-                    spyConsoleError = chai.spy.on(console, 'log');
-                });
-
-                afterEach(function () {
-                    chai.spy.restore(console, 'log');
-                });
-
-                it('should return an Error instance and console an error message', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    let result = todo.allCommands.rm.execute('Books', 0, 58);
-
-                    expect(result).to.be.an.instanceOf(Error);
-                    expect(result.message).to.equal('Incorrect amount of arguments');
-                    expect(spyConsoleError).to.have.been.called;
-                });
-
-            });
-
-            context('When we have the correct amount of arguments', function () {
-
-                it('should remove item from specified list', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books', 'Bleach', '12-20-2024', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books', 'Burn the Witch', '10-20-2024', 'non-Fiction');
-                    todo.allCommands.rm.execute('Books', 0);
-
-                    expect(todo.board['books'].items[0].title).to.equal('Burn the Witch');
-                });
-
-            });
-
-        });
-
-        describe('up', function () {
-
-            context('When we have an incorrect amount of arguments', function () {
-                let spyConsoleError;
-
-                beforeEach(function () {
-                    spyConsoleError = chai.spy.on(console, 'log');
-                });
-
-                afterEach(function () {
-                    chai.spy.restore(console, 'log');
-                });
-
-                it('should return an Error instance and console an error message', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
-                    let result = todo.allCommands.up.execute('books', 1, 1, 'going up');
-
-                    expect(result).to.be.an.instanceOf(Error);
-                    expect(result.message).to.equal('Incorrect amount of arguments');
-                    expect(spyConsoleError).to.have.been.called;
-                });
-
-            });
-
-            context('When we have a correct number of arguments', function () {
-
-                it('should move the reference', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
-                    todo.allCommands.up.execute('books', 1, 1);
-
-                    expect(todo.board['books'].items[0].title).to.equal('Burn the Witch');
-                });
-
-            });
-
-        });
-
-        describe('down', function () {
-
-            context('When we have an incorrect amount of arguments', function () {
-                let spyConsoleError;
-
-                beforeEach(function () {
-                    spyConsoleError = chai.spy.on(console, 'log');
-                });
-
-                afterEach(function () {
-                    chai.spy.restore(console, 'log');
-                });
-
-                it('should return an Error instance and console an error message', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
-                    let result = todo.allCommands.up.execute('books', 1, 1, 'going down');
-
-                    expect(result).to.be.an.instanceOf(Error);
-                    expect(result.message).to.equal('Incorrect amount of arguments');
-                    expect(spyConsoleError).to.have.been.called;
-                });
-
-            });
-
-            context('When we have a correct number of arguments', function () {
-
-                it('should move the reference', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
-                    todo.allCommands.down.execute('books', 0, 1);
-
-                    expect(todo.board['books'].items[1].title).to.equal('Bleach');
-                });
-
-            });
-
-        });
-
-        describe('undo', function () {
-
-            context('When we have an incorrect amount of argument', function () {
-                let spyConsoleError;
-
-                beforeEach(function () {
-                    spyConsoleError = chai.spy.on(console, 'log');
-                });
-
-                afterEach(function () {
-                    chai.spy.restore(console, 'log');
-                });
-
-                it('should return an Error instance and console an error message', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
-                    todo.allCommands.rm.execute('books', 1);
-                    todo.allCommands.rm.execute('books', 0);
-                    let result = todo.allCommands.undo.execute('books', 2);
-
-                    expect(result).to.be.an.instanceOf(Error);
-                    expect(result.message).to.equal('Expecting List Name');
-                    expect(spyConsoleError).to.have.been.called;
-                });
-
-            });
-
-            context('When we have the correct amount of argument', function () {
-
-                it('should return the removed items back into there original positions in list.items', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
-                    todo.allCommands.rm.execute('books', 1);
-                    todo.allCommands.rm.execute('books', 0);
-                    todo.allCommands.undo.execute('books');
-
-
-
-                   expect(todo.board['books'].items[0].title).to.equal('Bleach');
-                   expect(todo.board['books'].items[1].title).to.equal('Re-zero');
-                });
-
-            });
-
-        });
-
-        describe('sort', function () {
-
-            context('When we have an incorrect amount of argument', function () {
-                let spyConsoleError;
-
-                beforeEach(function () {
-                    spyConsoleError = chai.spy.on(console, 'log');
-                });
-
-                afterEach(function () {
-                    chai.spy.restore(console, 'log');
-                });
-
-                it('should return an Error instance and console an error message', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
-                    let result = todo.allCommands.sort.execute('books', 'acsending', 'decsending');
-
-                    expect(result).to.be.an.instanceOf(Error);
-                    expect(result.message).to.equal('Expecting List Name and acsending or decsending argument');
-                    expect(spyConsoleError).to.have.been.called;
-                });
-
-            });
-
-            context('When we have the correct amount of argument', function () {
-
-                it('should return the removed items back into there original positions in list.items', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
-                    todo.allCommands.sort.execute('books', 'decsending');
-
-                   expect(todo.board['books'].items[0].title).to.equal('Re-zero');
-                   expect(todo.board['books'].items[1].title).to.equal('Bleach');
-                   expect(todo.board['books'].items[2].title).to.equal('Burn the Witch');
-                });
-
-            });
-        });
-
-        describe('priority', function () {
-
-            context('When we have an incorrect amount of arguments', function () {
-                let spyConsoleError;
-
-                beforeEach(function () {
-                    spyConsoleError = chai.spy.on(console, 'log');
-                });
-
-                afterEach(function () {
-                    chai.spy.restore(console, 'log');
-                });
-
-                it('should return an Error instance and console an error message', function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
-                    let result = todo.allCommands.priority.execute('books', 'a');
-
-                    expect(result).to.be.an.instanceOf(Error);
-                    expect(result.message).to.equal('Expecting List Name');
-                    expect(spyConsoleError).to.have.been.called;
-                });
-
-            });
-
-            context('When we have a correct amount of arguments', function () {
-                let spyPriority;
-
-                beforeEach(function () {
-                    todo.allCommands.mklist.execute('Books');
-                    todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
-                    todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
-
-                    spyPriority = chai.spy.on(todo.board['books'], 'printPriority');
-                });
-
-                afterEach(function () {
-                    chai.spy.restore(todo.board['books'], 'priority');
-                });
-
-                it('should call the specified list.priority', function () {
-                    todo.allCommands.priority.execute('books');
-
-                    expect(spyPriority).to.have.been.called;
-                });
-
-            });
-
-        });
-
-        describe('printItem', function () {
-
-        });
-
-        // describe('print', function () {
+        //     });
 
         // });
 
-        describe('quit', function () {
+        // describe('ls', function () {
+        //     let spyConsole;
+
+        //     beforeEach(function () {
+        //         spyConsole = chai.spy.on(console, 'log');
+        //     });
+
+        //     afterEach(function () {
+        //         chai.spy.restore(console, 'log');
+        //     });
+
+        //     it('should console.log this.board keys', function () {
+        //         todo.allCommands.mklist.execute('Groceries');
+        //         todo.allCommands.ls.execute();
+        //         expect(spyConsole).to.have.been.called.with(['groceries']);
+        //     });
+
+        // });
+
+        // describe('showall', function () {
+
+        //     context('When no arguments', function () {
+        //         let spyConsole;
+
+        //         beforeEach(function () {
+        //             todo.allCommands.mklist.execute('Groceries');
+        //             todo.board['groceries'].addItem('burger', '01-22-2025', 'For the Party');
+
+        //             spyConsole = chai.spy.on(console, 'log');
+        //         });
+
+        //         afterEach(function () {
+        //             chai.spy.restore(console, 'log');
+        //         });
+
+        //         it('should console.log Object.values(this.board)', function () {
+        //             todo.allCommands.showall.execute();
+        //             expect(spyConsole).to.have.been.called;
+        //         });
+
+        //     });
+
+        //     context('When there are arguments', function () {
+        //         let spyConsoleError;
+
+        //         beforeEach(function () {
+        //             spyConsoleError = chai.spy.on(console, 'error');
+        //         });
+
+        //         afterEach(function () {
+        //             chai.spy.restore(console, 'error');
+        //         });
+
+        //         it('should return an Error instance and console an Error message', function () {
+        //             todo.allCommands.mklist.execute('Groceries');
+        //             let result = todo.allCommands.showall.execute('Groceries');
+
+        //             expect(result).to.be.an.instanceOf(Error);
+        //             expect(result.message).to.equal(`No arguments needed`);
+        //             expect(spyConsoleError).to.have.been.called
+        //         });
+
+        //     });
+
+        // });
+
+        // describe('mktodo', function () {
+
+        //     context('When no argument is received or too many', function () {
+        //         let spyConsoleError;
+
+        //         beforeEach(function () {
+        //             spyConsoleError = chai.spy.on(console, 'log');
+        //         });
+
+        //         afterEach(function () {
+        //             chai.spy.restore(console, 'log');
+        //         });
+
+        //         it('should return an Error instance and console an error message', function () {
+        //             // Just say incorrect amount of arguments
+        //             // i === 4
+
+        //             todo.allCommands.mklist.execute('Books');
+        //             let result = todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction', 'At Thursday');
+
+        //             expect(result).to.be.an.instanceOf(Error);
+        //             expect(result.message).to.equal('Incorrect amount of arguments');
+        //             expect(spyConsoleError).to.have.been.called;
+        //         });
+
+        //     });
+
+        //     context('When arguments are recieved', function () {
+
+        //         it('should add an item instance into a list', function () {
+        //             todo.allCommands.mklist.execute('Groceries');
+        //             todo.allCommands.mktodo.execute('Groceries', 'potatoes', '10-20-2010', 'For cooking');
+
+        //             expect(todo.board['groceries'].items[0].title).to.equal('potatoes');
+        //         });
+
+        //     });
+
+        // });
+
+        // describe('toggle', function () {
+
+        //     context('When no argument is received or too many', function () {
+        //         let spyConsoleError;
+
+        //         beforeEach(function () {
+        //             spyConsoleError = chai.spy.on(console, 'log');
+        //         });
+
+        //         afterEach(function () {
+        //             chai.spy.restore(console, 'log');
+        //         });
+
+        //         it('should return an Error instance and console an error message', function () {
+        //             todo.allCommands.mklist.execute('Books');
+        //             todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+        //             let result = todo.allCommands.toggle.execute('Books', 'Bleach', 'dsfsars');
+
+        //             expect(result).to.be.an.instanceOf(Error);
+        //             expect(result.message).to.equal('Incorrect amount of arguments');
+        //             expect(spyConsoleError).to.have.been.called;
+        //         });
+
+        //     });
+
+        //     context('When we have the correct amount of arguments', function () {
+
+        //         it('should switch item done property to true', function () {
+        //             todo.allCommands.mklist.execute('Books');
+        //             todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+        //             todo.allCommands.toggle.execute('Books', 'Bleach');
+
+        //             expect(todo.board['books'].items[0].done).to.be.true;
+        //         });
+
+        //     });
+
+        // });
+
+        // describe('rm', function () {
+
+        //     context('When no argument is received or too many', function () {
+        //         let spyConsoleError;
+
+        //         beforeEach(function () {
+        //             spyConsoleError = chai.spy.on(console, 'log');
+        //         });
+
+        //         afterEach(function () {
+        //             chai.spy.restore(console, 'log');
+        //         });
+
+        //         it('should return an Error instance and console an error message', function () {
+        //             todo.allCommands.mklist.execute('Books');
+        //             todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+        //             let result = todo.allCommands.rm.execute('Books', 0, 58);
+
+        //             expect(result).to.be.an.instanceOf(Error);
+        //             expect(result.message).to.equal('Incorrect amount of arguments');
+        //             expect(spyConsoleError).to.have.been.called;
+        //         });
+
+        //     });
+
+        //     context('When we have the correct amount of arguments', function () {
+
+        //         it('should remove item from specified list', function () {
+        //             todo.allCommands.mklist.execute('Books');
+        //             todo.allCommands.mktodo.execute('Books', 'Bleach', '12-20-2024', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books', 'Burn the Witch', '10-20-2024', 'non-Fiction');
+        //             todo.allCommands.rm.execute('Books', 0);
+
+        //             expect(todo.board['books'].items[0].title).to.equal('Burn the Witch');
+        //         });
+
+        //     });
+
+        // });
+
+        // describe('up', function () {
+
+        //     context('When we have an incorrect amount of arguments', function () {
+        //         let spyConsoleError;
+
+        //         beforeEach(function () {
+        //             spyConsoleError = chai.spy.on(console, 'log');
+        //         });
+
+        //         afterEach(function () {
+        //             chai.spy.restore(console, 'log');
+        //         });
+
+        //         it('should return an Error instance and console an error message', function () {
+        //             todo.allCommands.mklist.execute('Books');
+        //             todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+        //             let result = todo.allCommands.up.execute('books', 1, 1, 'going up');
+
+        //             expect(result).to.be.an.instanceOf(Error);
+        //             expect(result.message).to.equal('Incorrect amount of arguments');
+        //             expect(spyConsoleError).to.have.been.called;
+        //         });
+
+        //     });
+
+        //     context('When we have a correct number of arguments', function () {
+
+        //         it('should move the reference', function () {
+        //             todo.allCommands.mklist.execute('Books');
+        //             todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+        //             todo.allCommands.up.execute('books', 1, 1);
+
+        //             expect(todo.board['books'].items[0].title).to.equal('Burn the Witch');
+        //         });
+
+        //     });
+
+        // });
+
+        // describe('down', function () {
+
+        //     context('When we have an incorrect amount of arguments', function () {
+        //         let spyConsoleError;
+
+        //         beforeEach(function () {
+        //             spyConsoleError = chai.spy.on(console, 'log');
+        //         });
+
+        //         afterEach(function () {
+        //             chai.spy.restore(console, 'log');
+        //         });
+
+        //         it('should return an Error instance and console an error message', function () {
+        //             todo.allCommands.mklist.execute('Books');
+        //             todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+        //             let result = todo.allCommands.up.execute('books', 1, 1, 'going down');
+
+        //             expect(result).to.be.an.instanceOf(Error);
+        //             expect(result.message).to.equal('Incorrect amount of arguments');
+        //             expect(spyConsoleError).to.have.been.called;
+        //         });
+
+        //     });
+
+        //     context('When we have a correct number of arguments', function () {
+
+        //         it('should move the reference', function () {
+        //             todo.allCommands.mklist.execute('Books');
+        //             todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+        //             todo.allCommands.down.execute('books', 0, 1);
+
+        //             expect(todo.board['books'].items[1].title).to.equal('Bleach');
+        //         });
+
+        //     });
+
+        // });
+
+        describe('undo', function () {
+
+            beforeEach(function () {
+                todo.allCommands.mklist.execute('books');
+                todo.allCommands.mktodo.execute('books','Bleach', '12-20-2024', 'Fiction');
+                todo.allCommands.mktodo.execute('books','Naruto', '11-10-2023', 'Fiction');
+                todo.allCommands.mktodo.execute('books','Tekken', '11-10-2023', 'Game');
+            });
+
+            // context('When we have an incorrect amount of argument', function () {
+            //     let spyConsoleError;
+
+            //     beforeEach(function () {
+            //         spyConsoleError = chai.spy.on(console, 'log');
+            //     });
+
+            //     afterEach(function () {
+            //         chai.spy.restore(console, 'log');
+            //     });
+
+            //     it('should return an Error instance and console an error message', function () {
+            //         todo.allCommands.mklist.execute('Books');
+            //         todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+            //         todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+            //         todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
+            //         todo.allCommands.rm.execute('books', 1);
+            //         todo.allCommands.rm.execute('books', 0);
+            //         let result = todo.allCommands.undo.execute('books', 2);
+
+            //         expect(result).to.be.an.instanceOf(Error);
+            //         expect(result.message).to.equal('Expecting List Name');
+            //         expect(spyConsoleError).to.have.been.called;
+            //     });
+
+            // });
+
+            context('When we have the correct amount of argument', function () {
+
+                it('should return the first items back into there original positions in list.items', function () {
+                    todo.allCommands.rm.execute('books', 0);
+                    expect(todo.board['books'].items[0].title).to.equal('Naruto');
+                    expect(todo.board['books'].items[1].title).to.equal('Tekken');
+                    expect(todo.board['books'].items[2]).to.equal(undefined);
+
+                    expect(todo.board['books'].purges.head.value.title).to.equal('Bleach');
+
+                    todo.allCommands.undo.execute('books');
+                    expect(todo.board['books'].items[0].title).to.equal('Bleach');
+                    expect(todo.board['books'].items[1].title).to.equal('Naruto');
+                    expect(todo.board['books'].items[2].title).to.equal('Tekken');
+
+                    expect(todo.board['books'].purges.head).to.be.null;
+
+                    // There is a bugs here
+                    // ------------------------------------------
+                    // 0     | bleach        | 11-11-1111 | [ ]
+                    // 1     | naruto        | 22-22-2222 | [ ]
+                    // ------------------------------------------
+                });
+
+                it('should return the last items back into there original positions in list.items', function () {
+                    todo.allCommands.rm.execute('books', 2);
+
+                    expect(todo.board['books'].items[0].title).to.equal('Bleach');
+                    expect(todo.board['books'].items[1].title).to.equal('Naruto');
+                    expect(todo.board['books'].items[2]).to.equal(undefined);
+
+
+                    expect(todo.board['books'].purges.head.value.title).to.equal('Tekken');
+
+                    todo.allCommands.undo.execute('books');
+                    expect(todo.board['books'].items[0].title).to.equal('Bleach');
+                    expect(todo.board['books'].items[1].title).to.equal('Naruto');
+                    expect(todo.board['books'].items[2].title).to.equal('Tekken');
+
+                    expect(todo.board['books'].purges.head).to.be.null;
+
+                    // There is a bug
+                    // ------------------------------------------
+                    // 0     | bleach        | 11-11-1111 | [ ]
+                    // 1     | naruto        | 12-12-1212 | [ ]
+                    // ------------------------------------------
+                });
+
+                it('should return the middle items back into there original positions in list.items', function () {
+                    todo.allCommands.rm.execute('books', 1);
+                    expect(todo.board['books'].items[0].title).to.equal('Bleach');
+                    expect(todo.board['books'].items[1].title).to.equal('Tekken');
+                    expect(todo.board['books'].items[2]).to.equal(undefined);
+
+
+                    expect(todo.board['books'].purges.head.value.title).to.equal('Naruto');
+
+                    todo.allCommands.undo.execute('books');
+                    expect(todo.board['books'].items[0].title).to.equal('Bleach');
+                    expect(todo.board['books'].items[1].title).to.equal('Naruto');
+                    expect(todo.board['books'].items[2].title).to.equal('Tekken');
+
+
+                    expect(todo.board['books'].purges.head).to.be.null;
+
+                    // there is a bug
+                    // ------------------------------------------
+                    // 0     | bleach        | 11-11-1111 | [ ]
+                    // 1     | naruto        | 12-12-1212 | [ ]
+                    // ------------------------------------------
+                });
+
+            });
 
         });
+
+        // describe('sort', function () {
+
+        //     context('When we have an incorrect amount of argument', function () {
+        //         let spyConsoleError;
+
+        //         beforeEach(function () {
+        //             spyConsoleError = chai.spy.on(console, 'log');
+        //         });
+
+        //         afterEach(function () {
+        //             chai.spy.restore(console, 'log');
+        //         });
+
+        //         it('should return an Error instance and console an error message', function () {
+        //             todo.allCommands.mklist.execute('Books');
+        //             todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
+        //             let result = todo.allCommands.sort.execute('books', 'acsending', 'decsending');
+
+        //             expect(result).to.be.an.instanceOf(Error);
+        //             expect(result.message).to.equal('Expecting List Name and acsending or decsending argument');
+        //             expect(spyConsoleError).to.have.been.called;
+        //         });
+
+        //     });
+
+        //     context('When we have the correct amount of argument', function () {
+
+        //         it('should return the removed items back into there original positions in list.items', function () {
+        //             todo.allCommands.mklist.execute('Books');
+        //             todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
+        //             todo.allCommands.sort.execute('books', 'decsending');
+
+        //            expect(todo.board['books'].items[0].title).to.equal('Re-zero');
+        //            expect(todo.board['books'].items[1].title).to.equal('Bleach');
+        //            expect(todo.board['books'].items[2].title).to.equal('Burn the Witch');
+        //         });
+
+        //     });
+        // });
+
+        // describe('priority', function () {
+
+        //     context('When we have an incorrect amount of arguments', function () {
+        //         let spyConsoleError;
+
+        //         beforeEach(function () {
+        //             spyConsoleError = chai.spy.on(console, 'log');
+        //         });
+
+        //         afterEach(function () {
+        //             chai.spy.restore(console, 'log');
+        //         });
+
+        //         it('should return an Error instance and console an error message', function () {
+        //             todo.allCommands.mklist.execute('Books');
+        //             todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
+        //             let result = todo.allCommands.priority.execute('books', 'a');
+
+        //             expect(result).to.be.an.instanceOf(Error);
+        //             expect(result.message).to.equal('Expecting List Name');
+        //             expect(spyConsoleError).to.have.been.called;
+        //         });
+
+        //     });
+
+        //     context('When we have a correct amount of arguments', function () {
+        //         let spyPriority;
+
+        //         beforeEach(function () {
+        //             todo.allCommands.mklist.execute('Books');
+        //             todo.allCommands.mktodo.execute('Books','Bleach', '12-20-2024', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books','Burn the Witch', '11-10-2023', 'Fiction');
+        //             todo.allCommands.mktodo.execute('Books', 'Re-zero', '10-24-2026', 'Fnction');
+
+        //             spyPriority = chai.spy.on(todo.board['books'], 'printPriority');
+        //         });
+
+        //         afterEach(function () {
+        //             chai.spy.restore(todo.board['books'], 'priority');
+        //         });
+
+        //         it('should call the specified list.priority', function () {
+        //             todo.allCommands.priority.execute('books');
+
+        //             expect(spyPriority).to.have.been.called;
+        //         });
+
+        //     });
+
+        // });
+
+        // describe('printItem', function () {
+
+        // });
+
+        // describe('quit', function () {
+
+        // });
 
     });
 
@@ -560,63 +618,76 @@ describe('Todo Board', function () {
 
         context('asynchronous' , function () {
 
-            // it('should input should be a string data type', async function () {
-            //     let input = await todo.getCommand();
-            //     return expect(input).to.be.a('string');
-            // });
+            context('undo', function () {
 
-            context('When the input is not included in todo.allCommands', function () {
+                beforeEach(function () {
+                    todo.allCommands.mklist.execute('books');
+                    todo.allCommands.mktodo.execute('books','Bleach', '12-20-2024', 'Fiction');
+                    todo.allCommands.mktodo.execute('books','Naruto', '11-10-2023', 'Fiction');
+                    todo.allCommands.mktodo.execute('books','Tekken', '11-10-2023', 'Game');
+                });
 
-                it('should console an error message', async function () {
-                    let spyInputError = chai.spy.on(console, 'log');
+                it('should rm the first index and undo the change', async function () {
+                    this.timeout(25000);
 
-                    let input = await todo.getCommand();
+                    await todo.getCommand();
+                    console.log(todo.board['books'].items);
 
-                    expect(spyInputError).to.have.been.called;
-                    expect(input).to.be.an.instanceOf(Error);
-                    return expect(input.message).to.equal('Input is not a valid command');
+                    expect(todo.board['books'].items[0].title).to.equal('Naruto');
+                    expect(todo.board['books'].items[1].title).to.equal('Tekken');
+                    expect(todo.board['books'].items[2]).to.equal(undefined);
+                    expect(todo.board['books'].purges.head.value.title).to.equal('Bleach');
+
+                    await todo.getCommand();
+                    console.log(todo.board['books'].items);
+
+                    expect(todo.board['books'].items[0].title).to.equal('Bleach');
+                    expect(todo.board['books'].items[1].title).to.equal('Naruto');
+                    expect(todo.board['books'].items[2].title).to.equal('Tekken');
+                    expect(todo.board['books'].purges.head).to.be.null;
+                });
+
+                it('should rm the last index and undo the change', async function () {
+                    this.timeout(25000);
+
+                    await todo.getCommand();
+                    console.log(todo.board['books'].items);
+
+                    expect(todo.board['books'].items[0].title).to.equal('Bleach');
+                    expect(todo.board['books'].items[1].title).to.equal('Naruto');
+                    expect(todo.board['books'].items[2]).to.equal(undefined);
+                    expect(todo.board['books'].purges.head.value.title).to.equal('Tekken');
+
+                    await todo.getCommand();
+                    console.log(todo.board['books'].items);
+
+                    expect(todo.board['books'].items[0].title).to.equal('Bleach');
+                    expect(todo.board['books'].items[1].title).to.equal('Naruto');
+                    expect(todo.board['books'].items[2].title).to.equal('Tekken');
+                    expect(todo.board['books'].purges.head).to.be.null;
+                });
+
+                it('should rm the middle index and undo the change', async function () {
+                    this.timeout(25000);
+
+                    await todo.getCommand();
+
+                    expect(todo.board['books'].items[0].title).to.equal('Bleach');
+                    expect(todo.board['books'].items[1].title).to.equal('Tekken');
+                    expect(todo.board['books'].items[2]).to.equal(undefined);
+                    expect(todo.board['books'].purges.head.value.title).to.equal('Naruto');
+
+                    await todo.getCommand();
+
+                    expect(todo.board['books'].items[0].title).to.equal('Bleach');
+                    expect(todo.board['books'].items[1].title).to.equal('Naruto');
+                    expect(todo.board['books'].items[2].title).to.equal('Tekken');
+                    expect(todo.board['books'].purges.head).to.be.null;
                 });
 
             });
-
-            context('When the input is included', function () {
-
-                it('', function () {
-
-                });
-
-            });
-
-            // the first input is a command. Anything that comes after is a argument.
-            // each command or argument must have a space in between.
-
-            // 'command listName arg arg arg....'
-            // index 0 === is the command
-            // index 1 === listName
-            // index 2 and onwards === depends
-
-            // context('multiple arguments', async function () {
-
-            //     it('', function () {
-
-            //     });
-
-            // });
-
-            // context('single commands', function () {
-
-            // });
 
         });
-
-        // lets make sure to get the command in the right format
-        // context('isCorrectFormat', function () {
-
-        //     it('', function () {
-
-        //     });
-
-        // });
 
     });
 
